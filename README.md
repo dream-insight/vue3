@@ -25,12 +25,13 @@
 13. [코멘트](#13-코멘트)
 14. [Vue 템플릿](#14-Vue-템플릿)
 15. [컴포넌트 SFC](#15-컴포넌트-SFC)
-16. [이벤트 버스](#16-이벤트-버스)
-17. [상태 관리자 Vuex](#17-상태-관리자-Vuex)
-18. [라우터 Router](#18-라우터-Router)
-19. [env 파일 활용](#19-env-파일-활용)
+16. [Provide & Inject](#16-Provide-&-Inject)
+17. [이벤트 버스](#17-이벤트-버스)
+18. [상태 관리자 Vuex](#18-상태-관리자-Vuex)
+19. [라우터 Router](#19-라우터-Router)
+20. [env 파일 활용](#20-env-파일-활용)
 
-* [Vue2.x Component & Plugin 모음](https://github.com/dream-insight/frontEnd/tree/main/src)
+* [Vue3.x Component & Plugin 모음](https://github.com/dream-insight/vue3/tree/main/src)
 
 ---
 
@@ -139,7 +140,7 @@ onUpdated(() => {
 import { ref } from 'vue'
 import UserData from '../common/userData'
 
-const apple = ref('')
+let apple = ref('')
 </script>
 ```
 
@@ -189,7 +190,7 @@ import codeLib from './module'
 
 ## 3. 변수 선언과 자료형
 
-### 3.1. 기본 형태의 Vue v2.x은 Type Script를 사용하기 어려운 관계로 필히 변수 선언시 타입에 맞게 정의 합니다.
+### 3.1. 변수 선언시 타입에 맞게 정의 합니다.(TypeScript 미사용 시)
 * 형식상 <code>ref()</code>의 변수는 <code>let</code>으로 선언합니다.
 * <code>Array</code>는 <code>ref()</code>로 초기화 되지만 <code>const</code>로 선언합니다.
 * <code>reactive()</code> 변수는 <code>const</code>로 선언합니다.
@@ -235,7 +236,7 @@ const by = 'dream'
   그러한 그러한 상황에 위와 같은 코드 나열 방식은 우리를 매우 불편하게 합니다.
 
 ### 3.4. 의미 없는 ref, reactive 변수 초기화
-* 랜더링 변화 또는 변수 변이감지가 필요 없는 변수는 <code>ref()</code>, <code>reactive()</code> 선언하지 않습니다.
+* 랜더링 변화 또는 변이감지가 필요 없는 변수는 <code>ref()</code>, <code>reactive()</code> 선언하지 않습니다.
 ```vue
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -1651,9 +1652,9 @@ console.log(comp.value.check())
   <component-a ref="comp" />
 </template>
 ```
-
 :arrow_up: [목차](#목차)
 
+### 15.6. 동적 컴포넌트
 ---
 
 ## 16. 이벤트 버스
@@ -1667,8 +1668,213 @@ console.log(comp.value.check())
 
 ---
 
-## 17. 상태 관리자 Vuex
-### 17.1. 기능별 모듈 분리를 기본으로 합니다.
+## 17. Provide & Inject
+
+### 17.1. 철저한 관리필요
+* 복잡한 컴포넌트 구조에서 Provide와 Inject는 편하게 자식 컨포넌트와 소통이 가능합니다.
+<img src="https://vuejs.org/assets/provide-inject.3e0505e4.png" />
+
+```vue
+<script setup>
+// parent
+import Child from '@/components/child'
+import { ref, provide } from 'vue'
+
+let count = ref(0)
+
+function increase(flag = '+') {
+  if (flag === '-') {
+    count.value--
+  } else {
+    count.value++
+  }
+}
+
+provide('count', count)
+provide('increase', increase)
+</script>
+
+<template>
+  <p>
+    <child />
+  </p>
+  <p>
+    <button type="button" @click="increase('-')">count 감소</button>
+  </p>
+</template>
+```
+
+```vue
+<script setup>
+// child.vue
+import { inject } from 'vue'
+
+const count = inject('count')
+const increase = inject('increase')
+</script>
+
+<template>
+  <p>{{ count }}</p>
+  <p><button type="button" @click="increase">count 증가</button></p>
+</template>
+```
+* 위와 같이 부모 컴포넌트의 변수 또는 함수 등을 공유 할 수 있고, 변이 감지도 손쉽게 처리 할수 있습니다.
+* 엑세스 흐름을 파악하기 어려울 경우 사용에 주의 하세요.
+
+### 17.2. 되도록 상태관리자(Vuex) 사용하세요.
+* 상태관리자를 통하여 변수를 변이하고, 해당 변수를 컴포넌트에서 호출 하여 사용하세요.
+```javascript
+// store.js
+export default createStore({
+  state: {
+    count: 0,
+  },
+  mutations: {
+    mutIncrease(state, v) {
+      state.count = v
+    }
+  },
+  actions: {
+    setIncrease({ state, commit }, flag) {
+      const count = (flag == '+') ? state.count + 1 : state.count - 1
+
+      commit('mutIncrease', count)
+    }
+  },
+  getters: {
+    getCount(state) {
+      return state.count
+    }
+  }
+})
+```
+
+```vue
+<script setup>
+// home.vue
+import Child from './Child'
+
+import { useStore } from 'vuex'
+
+const store = useStore()
+
+function increase() {
+  store.dispatch('setIncrease', '-')
+}
+</script>
+
+<template>
+  <Child />
+
+  <p>
+    <button type="button" @click="increase">count 감소</button>
+  </p>
+</template>
+
+<script setup>
+// Child.vue
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
+const count = computed(() => store.state.count)
+
+function increase() {
+  store.dispatch('setIncrease', '+')
+}
+</script>
+
+<template>
+  <p>{{ count }}</p>
+  <p><button type="button" @click="increase">count 증가</button></p>
+</template>
+```
+* 값에 대한 변이 뿐만 아니라, 약간 방식만 다르게 하여 이벤트 감지와도 비슷하게 사용 할 수 있습니다.
+```javascript
+// store.js
+import { createStore } from 'vuex'
+
+export default createStore({
+  state: {
+    event: '',
+  },
+  mutations: {
+    mutEvent(state, v) {
+      state.event = v
+    }
+  },
+  actions: {
+    setEvent({ commit }, flag = '') {
+      commit('mutEvent', flag)
+    }
+  },
+  getters: {
+    getEvent(state) {
+      return state.event
+    }
+  }
+})
+```
+
+```vue
+<script setup>
+// home.vue
+import Child from '@/components/child'
+
+import { useStore } from 'vuex'
+
+const store = useStore()
+
+function increase() {
+  store.dispatch('setEvent', 'minus')
+}
+</script>
+
+<template>
+  <Child />
+  <p>
+    <button type="button" @click="increase">count 감소</button>
+  </p>
+</template>
+```
+
+```vue
+<script setup>
+import { ref, computed, watch } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
+const event = computed(() => store.getters.getEvent)
+
+let count = ref(0)
+
+watch(event, (v) => {
+  if (v !== '') {
+    count.value = (v === 'plus') ? count.value + 1 : count.value - 1
+    store.dispatch('setEvent')
+  }
+})
+
+function increase() {
+  store.dispatch('setEvent', 'plus')
+}
+</script>
+
+<template>
+  <p>{{ count }}</p>
+  <p><button type="button" @click="increase">count 증가</button></p>
+</template>
+```
+* 위와 같이 <code>store</code>에 지정된 변수를 참조하여 <code>watch</code>를 통한 변이를 감지 하여 특정 액션을 취할 수 있습니다.
+
+
+:arrow_up: [목차](#목차)
+
+---
+
+
+## 18. 상태 관리자 Vuex
+### 18.1. 기능별 모듈 분리를 기본으로 합니다.
   * 분류가 모호한 코드는 store/index.js에 나열하고 코멘트 처리 해줍니다.
 ```javascript
 // index.js
@@ -1687,7 +1893,7 @@ const store = new Vuex.Store({
 })
 ```
 
-### 17.2. mutations, actions, getters
+### 18.2. mutations, actions, getters
   * 기본 명명 규칙을 준수하여 작성해주세요.
   * mutations -> mut, actions -> set, getters -> is(Boolean), get 으로 명명합니다.
 ```javascript
@@ -1738,7 +1944,7 @@ const session = {
 
 ---
 
-## 18. 라우터 Router
+## 19. 라우터 Router
 * 이름은 경로와 일치 시키되 앞쪽 <code>/</code>는 사용하지 않습니다.
 * 별도의 import로 파일을 불러 오지 않고 <code>component</code> 옵션에 바로 <code>() => import()</code> 방식으로 매칭 시켜 줍니다.
 * <code>meta</code> 옵션은 필요한 부분에만 작성하여 주고, 그외에는 설정하지 않습니다.
@@ -1785,8 +1991,8 @@ const routes = [
 
 ---
 
-## 19. env 파일 활용
-### 19.1. 개발, 테스트, 서비스 구분
+## 20. env 파일 활용
+### 20.1. 개발, 테스트, 서비스 구분
 * 루트 폴더에 아래와 같이 파일을 배치 합니다.
 ```
 .env
@@ -1807,7 +2013,7 @@ const routes = [
 }
 ```
 
-### 19.2. 사용 방법
+### 20.2. 사용 방법
 * 각종 환경 변수를 선언 하여 사용합니다.
 * 환경 변수 선언시에 VUE_APP_* 형태로 작성하여야 합니다.
 ```
@@ -1820,7 +2026,7 @@ VUE_APP_API_URL = https://dev.programrush.co.kr/api
 const { VUE_APP_VERSION, VUE_APP_API_URL } = process.env
 ```
 
-### 19.3. 주의 사항
+### 20.3. 주의 사항
 * 로컬 개발 진행 시에 .env 파일을 수정 하였다면 반듯이 로컬 서버를 재시작 해주세요.
 * 배포시에는 빌드 당시 설정된 내용이 적용 됩니다. 설정이 변경된 내용은 꼭 다시 빌드 후 배포하세요.
 

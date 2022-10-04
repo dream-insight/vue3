@@ -1,27 +1,18 @@
 <script setup>
-import InputField from '@/components/inputField'
+import Child from '@/components/child'
 
-import { ref, reactive, onMounted, defineEmits } from 'vue'
+import { useStore } from 'vuex'
 
-const emit = defineEmits()
+const store = useStore()
 
-const obj = reactive({})
-
-const input = ref(null)
-let text = ref('')
-
-if (obj) {
-  console.log(Object.keys(obj).length)
+function increase() {
+  store.dispatch('setEvent', 'minus')
 }
-
-onMounted(() => {
-  emit('click', { text: '', value: '' })
-
-  console.log(input.value.isValidate)
-  console.log(input.value.check())
-})
 </script>
 
 <template>
-  <input-field ref="input" v-model="text" />
+  <Child />
+  <p>
+    <button type="button" @click="increase">count 감소</button>
+  </p>
 </template>

@@ -2,13 +2,21 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-  },
-  getters: {
+    event: '',
   },
   mutations: {
+    mutEvent(state, v) {
+      state.event = v
+    }
   },
   actions: {
+    setEvent({ commit }, flag = '') {
+      commit('mutEvent', flag)
+    }
   },
-  modules: {
+  getters: {
+    getEvent(state) {
+      return state.event
+    }
   }
 })
