@@ -6,12 +6,40 @@ const routes = [
     name: 'home',
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-  }
+    path: '/modal',
+    name: 'modal',
+    component: () => import('@/views/modal')
+  },
+  {
+    path: '/spinner',
+    name: 'spinner',
+    component: () => import('@/views/spinner')
+  },
+  {
+    path: '/toast',
+    name: 'toast',
+    component: () => import('@/views/toast')
+  },
+  {
+    path: '/tooltip',
+    name: 'tooltip',
+    component: () => import('@/views/tooltip')
+  },
+  {
+    path: '/pagination',
+    name: 'pagination',
+    component: () => import('@/views/pagination')
+  },
+  {
+    path: '/listTable',
+    name: 'listTable',
+    component: () => import('@/views/listTable')
+  },
+  {
+    path: '/form',
+    name: 'form',
+    component: () => import('@/views/form')
+  },
 ]
 
 const router = createRouter({

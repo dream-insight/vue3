@@ -1,0 +1,59 @@
+.list-table {
+  .columns {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &.center {
+      justify-content: center;
+    }
+    &.left {
+      justify-content: flex-start;
+    }
+    &.right {
+      justify-content: flex-end;
+    }
+  }
+
+  .sorting {
+    transition: all .2s;
+    transform-origin: center;
+    text-align: center;
+    font-size: 14px;
+    width: 21px;
+    height: 21px;
+    color: #528ff2;
+  }
+
+  .sorting:hover {
+      color: rgba(82, 143, 242, 0.5);
+  }
+
+  .order-icon {
+    display: block;
+    line-height: 21px;
+    width: 21px;
+    font-size: 18px;
+    text-align: center;
+  }
+  .desc {
+    transform: rotate(360deg);
+  }
+  .asc {
+    transform: rotate(180deg);
+  }
+  .sort-cell-text {
+    margin-right: 5px;
+    position: relative;
+  }
+
+  .icon-scale-enter-from,
+  .icon-scale-leave-to {
+    transform: scale(0);
+  }
+  .icon-scale-enter-active,
+  .icon-scale-leave-active {
+    transition: transform .2s;
+  }
+}

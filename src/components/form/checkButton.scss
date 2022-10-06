@@ -1,0 +1,64 @@
+.check-button {
+  label {
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  span {
+    color: #5b5b5b;
+    font-size: 14px;
+  }
+
+  .description {
+    font-size: 12px !important;
+    font-weight: normal;
+    padding: 0 !important;
+    margin-bottom: 0 !important;
+    border: 0 !important;
+    color: #ff5252;
+    text-align: left !important;
+
+    &.error {
+      animation: shaking 0.3s;
+    }
+  }
+}
+
+.check-button.button {
+  margin-top: -5px;
+
+  input {
+    display: none;
+  }
+
+  span {
+    display: inline-block;
+    border: 1px solid #7c7c7c;
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+
+  input:checked + span {
+    background-color: #7c7c7c;
+    color: #fff;
+  }
+}
+
+/* error message shaking */
+@keyframes shaking {
+  0% {
+    transform: translateX(10px);
+  }
+  25% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+  75% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(10px);
+  }
+}

@@ -38,8 +38,9 @@
 ## 1. 기본 형태
 
 ### 1.1. VueJS v3.x Framework 기본 형식은 아래와 같이 지켜 주세요.
-* <code>\<script setup>\</script></code> 으로 작성합니다.
-* 코드는 기능단위로 분리 하여 작성하고,
+* options API는 사용하지 않습니다. 모든 코드는 Composition API를 사용하세요.
+* <code>\<script setup>\</script></code> 테그로 작성합니다.
+* 코드는 기능단위로 분리 하여 작성하고, 라이프 사이클 정의는 최하단에 표기 합니다.
 ```vue
 <!-- Bad -->
 <script>
@@ -127,8 +128,8 @@ onUpdated(() => {
 ## 2. 명명 규칙
 
 ### 2.1. 공통
-* 영문 카멜케이스로 작성합니다.
-* 컴포넌트 import 시 파스칼케이스로 구분하여 주세요.
+* 영문 카멜케이스(Camel-Case)로 작성합니다.
+* 컴포넌트 import 시 파스칼케이스(Pascal-Case)로 구분하여 주세요.
 * 이름 가장 앞자리를 숫자로 선언하면 안됩니다.
   > 파일, 폴더명 역시 동일하게 취급합니다.
 * 필히 한 단어 이상의 유의미한 단어로 조합하고, 의미가 불분명한 줄임 단어를 사용하지 않습니다.
@@ -208,7 +209,7 @@ const component = ref(null)   // 컴포넌트, html dom 등 객체 참조
 ```
 
 ### 3.2. null, undefined
-* <code>null</code> 값 초기화는 ref(객체 참조) 외에는 사용하지 않습니다.
+* <code>null</code> 값 초기화는 <code>ref()</code>(객체 참조) 외에는 사용하지 않습니다.
 * <code>undefined</code>로 초기화 하여서는 안됩니다.
 ```javascript
 import { ref, reactive } from 'vue'
@@ -236,12 +237,12 @@ const by = 'dream'
   그러한 그러한 상황에 위와 같은 코드 나열 방식은 우리를 매우 불편하게 합니다.
 
 ### 3.4. 의미 없는 ref, reactive 변수 초기화
-* 랜더링 변화 또는 변이감지가 필요 없는 변수는 <code>ref()</code>, <code>reactive()</code> 선언하지 않습니다.
+* 변이 감지가 필요 없는 변수는 <code>ref()</code>, <code>reactive()</code> 선언하지 않습니다.
 ```vue
 <script setup>
 import { ref, onMounted } from 'vue'
 
-// Bad
+// Bad (엑세스 동안 변이 되지 않는 변수)
 let dream = ref('dream')
 
 // Good
@@ -506,46 +507,39 @@ const getText = (target) => obj[target]
 
 ```
 
-### 6.4. data에 선언된 오브젝트
-* data에 선언된 변수(properties)들은 우리에게 매운 편리한 기능을 재공 합니다.
-* 다만 그 편리함이 우리를 불편하게도 합니다. 아래의 예를 보겠습니다.
+### 6.4. 오브젝트 복사
+* 오브젝트를 따로 복사하여 사용할 때에는 아래의 사항에 유의 하세요.
 ```vue
-<script>
-export default {
-  data() {
-    return {
-      obj: {
-        text: '드림인사이트',
-        value: 'dreaminsight',
-      }
-    }
-  },
-  created() {
-    this.checkData()
-  },
-  methods: {
-    checkData(prm = '') {
-      let result = false
-      const cp = this.obj
+<script setup>
+import { reactive } from 'vue'
 
-      if (prm == '') {
-        this.obj.text = ''
-      }
+const obj = reactive({
+  text: '드림인사이트',
+  value: 'dreaminsight',
+})
 
-      if (JSON.stringify(cp) === JSON.stringify(this.obj)) {
-        result = true
-      }
+checkData(prm = '') {
+  let result = false
+  const cp = obj
 
-      console.log(cp.text) // print ''
-
-      return result
-    }
+  if (prm == '') {
+    obj.text = ''
   }
+
+  if (cp.text === obj.text) {
+    result = true
+  }
+
+  console.log(cp.text) // print ''
+
+  return result
 }
+
+checkData()
 </script>
 ```
-* 위의 코드에서 <code>this.obj</code> 값을 복사하여 차후 비교 하기 위한 코드를 작성하였다고 가정 해보겠습니다.
-* 하지만 중간에 <code>this.obj.text</code> 값을 변경하였고, 이후 <code>cp.text</code> 값을 확인 해보면 <code>''</code> 공백 값으로 변경된 것을 확인할 수 있습니다.
+* 위의 코드에서 <code>obj</code> 값을 복사하여 차후 비교 하기 위한 코드를 작성하였다고 가정 해보겠습니다.
+* 하지만 중간에 <code>obj.text</code> 값을 변경하였고, 이후 <code>cp.text</code> 값을 확인 해보면 <code>''</code> 공백 값으로 변경된 것을 확인할 수 있습니다.
 * 이것은 깊은 복사(Deep copy), 얕은 복사(Shallow copy)에 의하여 발생하는 현상입니다.
   > 깊은 복사와, 얕은 복사에 대해서는 링크를 참조 해주세요. [블로그 링크]
 ```javascript
@@ -976,8 +970,9 @@ for (let i = 0; i < data.length; i++) {
 * 이러한 문제를 해결하기 위해 <code>Recursion Function</code>을(재귀함수) 사용하기 권합니다.
 ```javascript
 function makeDOM(data = {}) {
+  let doms = []
+
   if (Object.keys(data).length) {
-    let doms = []
 
     Object.entries(data).forEach(([, item]) => {
       if (item.sub !== undefined) {
@@ -986,15 +981,17 @@ function makeDOM(data = {}) {
       } else {
         doms.push(`<div><span>${item.text}</span></div>`)
       }
-
-      return doms
     })
   }
+
+  return doms
 }
 
 const tags = makeDOM(data)
 ```
 * 위와 같이 코드의 가독성이 좋아지고, 무엇보다 무한루프 발생 확율도 매우 낮습니다.
+> 좀더 정확히 말하자면 재귀함수로 인해 스택오버플로우(Stack Overflow)가 발생합니다.<br>
+이 문제애 대해서는 블로그를 참조 해주세요. [블로그]
 
 :arrow_up: [목차](#목차)
 
@@ -1027,7 +1024,7 @@ switch (type) {
 }
 
 ```
-  > 이것은 webpack을 통한 vuejs 개발시에만 해당 됩니다. 혹여, 순수 js를 작성할 상황이 생긴다면 세미콜론을 사용해주세요.
+  > 이것은 webpack을 통한 개발시에만 해당 됩니다. 혹여, 순수 js를 작성할 상황이 생긴다면 세미콜론을 사용해주세요.
 
 :arrow_up: [목차](#목차)
 
