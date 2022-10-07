@@ -2035,3 +2035,5 @@ const { VUE_APP_VERSION, VUE_APP_API_URL } = process.env
 :arrow_up: [목차](#목차)
 
 ---
+
+* 초안 작성 2022.10.07 (작성자: 김종윤 수석 매니저)
