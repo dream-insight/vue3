@@ -628,7 +628,7 @@ if (apple === banana) {
   ...
 }
 ```
-* 숫자형을 비교 하기 위해서는 해당 값을 필히 Type Casting(Number, parseInt, parseFloat) 후 비교 해주세요.
+* 숫자형을 비교 하기 위해서는 해당 변수를 필히 Type Casting(Number, parseInt, parseFloat) 후 비교 해주세요.
 > 비교 대상의 변수의 자료형을 알 수 없는 경우, 또는 API를 통해 받은 값
 * 숫자형은 0 이외의 값을 모두 <code>true</code>로 간주 됩니다.
 ```javascript
@@ -973,7 +973,6 @@ function makeDOM(data = {}) {
   let doms = []
 
   if (Object.keys(data).length) {
-
     Object.entries(data).forEach(([, item]) => {
       if (item.sub !== undefined) {
         let tag = `<div><span>${item.text}</span> ${makeMenu(item.sub).join('')}</div>`
@@ -1089,7 +1088,6 @@ for (let i = 0; i < num; i++) {
   }
 }
 
-// Bad
 const test = () => num
 ```
 
@@ -1245,8 +1243,8 @@ function goMart(isOpen) {
  * 그렇지 않을 경우 편의점에 가서 우유를 삽니다.
  * 만약 편의 점도 닫혀 있다면 집으로 돌아 옵니다.
  *
- * @param {Boolean} isOpen
- * @return {Number} 구매한 총 수량을 반환
+ * @param { Boolean } isOpen
+ * @return { Number } 구매한 총 수량을 반환
 */
 function goMart(isOpen) {
   // ...
@@ -1554,10 +1552,17 @@ const emit = defineEmits(['click', 'mouseover', 'change-code'])
 
 emit('change-code', { text: '', value: '' })
 </script>
+
+<script setup>
+// it's okay
+const emit = defineEmits()
+
+emit('update:modelValue', value)
+</script>
 ```
 > <code>emit = defineEmits()</code>과 같이 이벤트를 정의 하지 않아도 이벤트를 발생 시킬 수 있습니다. <br>
 하지만 관리차원에서 항상 이벤트를 정의 해주세요.
-
+> 만약 컴포넌트에서 <code>update:modelValue</code> 말고는 정의되는 이벤트가 없는 경우 <code>emit = defineEmits()</code>가 가능합니다.
 
 ### 15.4. v-model
 *  Props의 데이터는 단방향입니다. 컴포넌트간 데이터를 주고 받아야 한다면, v-model로 연결 하세요.
@@ -1651,7 +1656,6 @@ console.log(comp.value.check())
 ```
 :arrow_up: [목차](#목차)
 
-### 15.6. 동적 컴포넌트
 ---
 
 ## 16. 이벤트 버스
@@ -1715,7 +1719,7 @@ const increase = inject('increase')
   <p><button type="button" @click="increase">count 증가</button></p>
 </template>
 ```
-* 위와 같이 부모 컴포넌트의 변수 또는 함수 등을 공유 할 수 있고, 변이 감지도 손쉽게 처리 할수 있습니다.
+* 위와 같이 부모 컴포넌트의 변수 또는 함수 등을 공유 할 수 있고, 변이 감지도 손쉽게 처리할 수 있습니다.
 * 엑세스 흐름을 파악하기 어려울 경우 사용에 주의 하세요.
 
 ### 17.2. 되도록 상태관리자(Vuex) 사용하세요.
