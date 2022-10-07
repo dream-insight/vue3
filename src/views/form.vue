@@ -15,7 +15,7 @@ let date = ref('')
 let dateRange = ref(['', ''])
 let files = ref([])
 
-const Form = ref(null)
+const form = ref(null)
 const opt = reactive({
   checkbox: [],
   select: [],
@@ -26,7 +26,7 @@ const rules = reactive({
   radio: [v => !!v || '항목을 하나 선택해주세요.'],
   input: [v => !!v || '필수 입력 항목입니다.'],
   select: [v => !!v || '필수 선택 항목입니다.'],
-  file: [v => !!v.legth || '파일을 선택해주세요.'],
+  file: [v => !!v.length || '파일을 선택해주세요.'],
   date: [v => !!v || '날짜를 선택해주세요.']
 })
 
@@ -39,7 +39,7 @@ function fileSelected(evt) {
 }
 
 function validate() {
-  Form.validate()
+  form.value.validate()
 }
 
 for (let value = 1; value <= 10; value++) {
@@ -51,7 +51,7 @@ for (let value = 1; value <= 10; value++) {
 <template>
   <div>
     <div class="wrap">
-      <!-- <validate-form ref="Form"> -->
+      <validate-form ref="form">
         <p>
           <h5>버튼 형식 checkbox</h5>
           <CheckButton
@@ -141,13 +141,13 @@ for (let value = 1; value <= 10; value++) {
             v-model="boolValue"
           />
         </p>
-        <!-- <p>
+        <p>
           <h5>validate wrapping</h5>
           <validate-wrap :validate="rules.file" :check-value="files">
             <input type="file" @change="fileSelected" />
           </validate-wrap>
-        </p> -->
-      <!-- </validate-form> -->
+        </p>
+      </validate-form>
 
       <p>
         <button type="button" @click="validate">유효성 검사</button>

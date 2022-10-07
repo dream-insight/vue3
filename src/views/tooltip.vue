@@ -13,7 +13,7 @@ let message = ref([
       <Tooltip top message="위에 나오는 메시지" />
     </p>
     <p>
-      <Tooltip right message="오른쪽에 나오는 메시지" />
+      <Tooltip right width="200" message="오른쪽에 나오는 메시지" />
     </p>
     <p>
       <Tooltip left width="200" message="왼쪽에 나오는 메시지">

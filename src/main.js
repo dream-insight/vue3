@@ -18,7 +18,7 @@ import CheckButton from '@/components/form/checkButton'
 import SwitchButton from '@/components/form/switchButton'
 import ValidateWrap from '@/components/form/validateWrap'
 import ValidateForm from '@/components/form/validateForm'
-import DatePicker from '@/components/form/datePicker'
+import DatePicker from '@/components/form/datePicker/datePicker'
 
 async () => await router.isReady()
 

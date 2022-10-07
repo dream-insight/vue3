@@ -1,7 +1,7 @@
 <script setup>
 import DateController from './dateController'
 
-import { ref, reactive, watch, computed, onMounted, defineProps, defineEmits } from 'vue'
+import { ref, reactive, watch, computed, onMounted, defineProps, defineEmits, defineExpose } from 'vue'
 
 const emit = defineEmits()
 const props = defineProps({
@@ -664,6 +664,11 @@ onMounted(() => {
       isShow.value = false
     }
   })
+})
+
+defineExpose({
+  check,
+  resetForm
 })
 </script>
 

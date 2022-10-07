@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed, defineEmits, defineProps, defineExpose, nextTick } from 'vue'
+import { ref, watch, computed, defineEmits, defineProps, defineExpose } from 'vue'
 
 const emit = defineEmits()
 const props = defineProps({
@@ -55,6 +55,10 @@ watch(() => props.modelValue, (v) => {
   resetValidate()
 })
 
+watch(val, (v) => {
+  resetValidate()
+})
+
 watch(() => props.items, (items) => {
   if (items.length > 0) {
     list.value = [...items]
@@ -68,7 +72,7 @@ watch(() => props.validate, () => {
 watch(errorTransition, (v) => {
   if (v) {
     setTimeout(() => {
-      errorTransition = false
+      errorTransition.value = false
     }, 300)
   }
 })

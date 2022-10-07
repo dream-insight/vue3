@@ -3,11 +3,11 @@ import { ref, watch, defineProps } from 'vue'
 
 const props = defineProps({
   checkValue: {
-    type: [],
+    type: [String, Number, Boolean, Array, Object],
     required: true
   },
+  // 폼 검증 함수 ex) [v => !!v || '필수 입력항목입니다.']
   validate: {
-    // 폼 검증 함수 ex) [v => !!v || '필수 입력항목입니다.']
     type: Array,
     default: () => []
   },

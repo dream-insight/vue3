@@ -22,73 +22,66 @@
 * checkbox model의 경우 <code>all</code> 설정이 되어 있으면 data 변수의 기본값을 <code>['']</code>로 해줘야 정상적으로 '전체'에 체크 됩니다.
 * <code>button</code> 옵션을 설정해주면 버튼 디자인으로 항목이 나열 됩니다.
 ```vue
-<template>
-  <div>
-    <p>
-      <h5>일반 checkbox</h5>
-      <check-button
-        all
-        name="check2"
-        :max-check="3"
-        :items="opt.checkbox"
-        v-model="checkbox2"
-      />
-    </p>
-    <p>
-      <h5>radio</h5>
-      <check-button
-        type="radio"
-        name="check3"
-        :validate="rules.radio"
-        :items="opt.checkbox"
-        v-model="radio"
-      />
-    </p>
-    <p>
-      <h5>버튼 형식 checkbox</h5>
-      <check-button
-        button
-        name="check1"
-        :validate="rules.checkbox"
-        :items="opt.checkbox"
-        v-model="checkbox1"
-      />
-    </p>
-  </div>
-</template>
+<script setup>
+import { ref, reactive } from 'vue'
 
-<script>
-export default {
-  data() {
-    return {
-      checkbox1: [],
-      checkbox2: [''],
-      radio: '',
-      opt: {
-        checkbox: [],
-      },
+let checkbox1 = ref([])
+let checkbox2 = ref([''])
+let radio = ref('')
 
-      rules: {
-        checkbox: [v => !(v.length == 0) || '항목을 하나 이상 선택해주세요.'],
-        radio: [v => !!v || '항목을 하나 선택해주세요.'],
-      }
-    }
-  },
-  created() {
-    for (let value = 1; value <= 10; value++) {
-      this.opt.checkbox.push({ text: `체크버튼${value}`, value })
-    }
-  },
+const opt = reactive({
+  checkbox: [],
+})
+
+const rules = reactive({
+  checkbox: [v => !(v.length == 0) || '항목을 하나 이상 선택해주세요.'],
+})
+
+for (let value = 1; value <= 10; value++) {
+  opt.checkbox.push({ text: `체크버튼${value}`, value })
 }
 </script>
+
+<template>
+  <p>
+    <h5>버튼 형식 checkbox</h5>
+    <CheckButton
+      button
+      name="check1"
+      :max-check="3"
+      :validate="rules.checkbox"
+      :items="opt.checkbox"
+      v-model="checkbox1"
+    />
+  </p>
+  <p>
+    <h5>일반 checkbox</h5>
+    <CheckButton
+      all
+      name="check2"
+      :items="opt.checkbox"
+      v-model="checkbox2"
+    />
+  </p>
+  <p>
+    <h5>radio</h5>
+    <CheckButton
+      type="radio"
+      name="check3"
+      :validate="rules.radio"
+      :items="opt.checkbox"
+      v-model="radio"
+    />
+  </p>
+</template>
 ```
 
 ### 1.2. Props
 
 | Name | Type | Default | Require | Description |
 |-------|---- |---------|---------|-------------|
-| value | Any | <code>none</code> | false | v-model |
-| type | String | <code>checkbox, radio</code> | false | checkbox 또는 radio 선택 |
+| modelValue | Any | <code>none</code> | false | v-model |
+| type | String | <code>checkbox</code> | false | checkbox 또는 radio 선택 |
 | name | String | <code>''</code> | *true* | input name 애드립뷰트 값을 설정 |
 | items | Array | <code>[Object]</code> | *true* | 항목을 만들 배열 데이터 <br> [{ text: '', value: '' }] |
 | all | Boolean | <code>false</code> | false | '전체' 항목을 추가 해주는 옵션 |
@@ -106,48 +99,46 @@ export default {
 
 ### 2.1. 사용방법
 ```vue
-<template>
-  <div>
-    <p>
-      <input-field
-        block
-        placeholder="이곳에 입력해주세요"
-        :validate="rules.input"
-        v-model="text"
-      />
-    </p>
-    <p>
-      <input-field
-        block
-        multiline
-        placeholder="이곳에 입력해주세요"
-        :rows="10"
-        :validate="rules.input"
-        v-model="area"
-      />
-    </p>
-  </div>
-</template>
+<script setup>
+import { ref, reactive } from 'vue'
 
-<script>
-export default {
-  data() {
-    return {
-      text: '',
-      area: '',
+let text = ref('')
+let area = ref('')
 
-      rule: [v => !!v || '필수 입력항목 입니다.']
-    }
-  },
-}
+const rules = reactive({
+  input: [v => !!v || '필수 입력 항목입니다.'],
+})
 </script>
+
+<template>
+  <p>
+    <h5>input field</h5>
+    <input-field
+      block
+      placeholder="이곳에 입력해주세요"
+      :validate="rules.input"
+      v-model="text"
+    />
+  </p>
+  <p>
+    <h5>textarea</h5>
+    <input-field
+      block
+      multiline
+      placeholder="이곳에 입력해주세요"
+      :rows="10"
+      :validate="rules.input"
+      v-model="area"
+    />
+  </p>
+</template>
 ```
 
 ### 2.2. Props
 
 | Name | Type | Default | Require | Description |
 |-------|---- |---------|---------|-------------|
-| value | String | <code>''</code> | false | v-model |
+| modelValue | String | <code>''</code> | false | v-model |
 | multiline | Boolean | <code>false</code> | false | textarea 폼으로 변경 |
 | block | Boolean | <code>false</code> | false | display: block 설정 |
 | rows | Number | <code>5</code> | false | multiline 설정시 textarea 높이를 설정 |
@@ -186,35 +177,32 @@ export default {
 
 ### 3.1. 사용방법
 ```vue
-<template>
-  <div>
-    <p>
-      <number-format
-        block
-        :validate="rule"
-        v-model="text"
-      />
-    </p>
-  </div>
-</template>
+<script setup>
+import { ref, reactive } from 'vue'
 
-<script>
-export default {
-  data() {
-    return {
-      num: 0,
-      rule: [v => !!v || '필수 입력항목 입니다.']
-    }
-  },
-}
+let number = ref(0)
+
+const rules = reactive({
+  input: [v => !!v || '필수 입력 항목입니다.'],
+})
 </script>
+
+<template>
+  <p>
+    <h5>input field number</h5>
+    <number-format
+      :validate="rules.input"
+      v-model="number"
+    />
+  </p>
+</template>
 ```
 
 ### 3.2. Props
 
 | Name | Type | Default | Require | Description |
 |-------|---- |---------|---------|-------------|
-| value | String | <code>''</code> | false | v-model |
+| modelValue | String | <code>''</code> | false | v-model |
 | block | Boolean | <code>false</code> | false | display: block 설정 |
 | width | String, Number | <code>none</code> | false | 넓이 설정 (block 보다 우선) |
 | validate | Array | <code>[Function]</code> | false | 폼 유효성 검사에 필요한 callback 함수를 배열에 나열 입력 |
@@ -234,42 +222,42 @@ export default {
 
 ### 4.1. 사용방법
 ```vue
-<template>
-  <div>
-    <p>
-      <select-box
-        placeholder="한 가지 항목을 선택해주세요"
-        :validate="rule"
-        :options="opt"
-        v-model="select"
-      />
-    </p>
-  </div>
-</template>
+<script setup>
+import { ref, reactive } from 'vue'
 
-<script>
-export default {
-  data() {
-    return {
-      select: '',
-      opt: []
-      rule: [v => !!v || '필수 선택항목 입니다.']
-    }
-  },
-  created() {
-    for (let value = 1; value <= 10; value++) {
-      this.opt.push({ text: `선택 - ${value}`, value })
-    }
-  }
+let select = ref('')
+
+const opt = reactive({
+  select: [],
+})
+
+const rules = reactive({
+  select: [v => !!v || '필수 선택 항목입니다.'],
+})
+
+for (let value = 1; value <= 10; value++) {
+  opt.select.push({ text: `선택 - ${value}`, value })
 }
 </script>
+
+<template>
+  <p>
+    <h5>select box</h5>
+    <select-box
+      placeholder="한 가지 항목을 선택해주세요"
+      :validate="rules.select"
+      :options="opt.select"
+      v-model="select"
+    />
+  </p>
+</template>
 ```
 
 ### 4.2. Props
 
 | Name | Type | Default | Require | Description |
 |-------|---- |---------|---------|-------------|
-| value | String | <code>''</code> | false | v-model |
+| modelValue | String | <code>''</code> | false | v-model |
 | options | Array | <code>[]</code> | false | option 필드를 생성할 데이터<br>[{ text: '', value: '' }] |
 | width | String, Number | <code>none</code> | false | 넓이 설정 (block 보다 우선) |
 | validate | Array | <code>[Function]</code> | false | 폼 유효성 검사에 필요한 callback 함수를 배열에 나열 입력 |
@@ -286,49 +274,38 @@ export default {
 
 ### 5.1. 사용방법
 ```vue
-<template>
-  <div>
-    <p>
-      <h5>switch button</h5>
-      <switch-button validate="설정으로 바꿔주세요." v-model="bool" />
-    </p>
-    <p>
-      <h5>small size switch button</h5>
-      <switch-button
-        small
-        validate
-        true-value="T"
-        false-value="F"
-        :label="label"
-        v-model="boolValue"
-      />
-    </p>
-  </div>
-</template>
+<script setup>
+import { ref } from 'vue'
 
-<script>
-export default {
-  data() {
-    return {
-      bool: false,
-      boolValue: 'T',
-      label: ['동의 안함', '동의'],
-    }
-  },
-  created() {
-    for (let value = 1; value <= 10; value++) {
-      this.opt.push({ text: `선택 - ${value}`, value })
-    }
-  }
-}
+let bool = ref(false)
+let boolValue = ref('T')
+let label = ref(['동의 안함', '동의'])
 </script>
+
+<template>
+  <p>
+    <h5>switch button</h5>
+    <switch-button validate="설정으로 바꿔주세요." v-model="bool" />
+  </p>
+  <p>
+    <h5>small size switch button</h5>
+    <switch-button
+      small
+      validate
+      true-value="T"
+      false-value="F"
+      :label="label"
+      v-model="boolValue"
+    />
+  </p>
+</template>
 ```
 
 ### 5.2. Props
 
 | Name | Type | Default | Require | Description |
 |-------|---- |---------|---------|-------------|
-| value | String | <code>''</code> | false | v-model |
+| modelValue | String | <code>''</code> | false | v-model |
 | small | Boolean | <code>false</code> | false | 버튼의 크기를 작게 생성합니다 |
 | label | Array | <code>[]</code> | false | 스위치에 사용자가 설정한 라벨을 표시 합니다, [false label, true label] |
 | validate | Boolean, String | <code>none</code> | false | 유효성 검사 여부를 판단합니다.<br>문자열을 입력할 경우 해당 문자열을 오류 메시지로 보여줍니다.<br>문자열을 설정하지 않을 경우 ON 상태의 라벨을 기준으로 오류메시지를 표시 합니다.|
@@ -344,35 +321,34 @@ export default {
 
 ### 6.1. 사용방법
 ```vue
-<template>
-  <div>
-    <p>
-      <date-picker :validate="rule" v-model="date" />
-    </p>
-    <p>
-      <date-picker range v-model="dateRage" />
-    </p>
-  </div>
-</template>
+<script setup>
+import { ref, reactive } from 'vue'
 
-<script>
-export default {
-  data() {
-    return {
-      date: '',
-      dateRange: ['', ''],
-      rule: [v => !!v.length || '날짜를 선택해주세요.']
-    }
-  },
-}
+let date = ref('')
+let dateRange = ref(['', ''])
+
+const rules = reactive({
+  date: [v => !!v || '날짜를 선택해주세요.']
+})
 </script>
+
+<template>
+  <p>
+    <h5>date picker</h5>
+    <date-picker :validate="rules.date" v-model="date" />
+  </p>
+  <p>
+    <h5>range date picker</h5>
+    <date-picker range :validate="rules.date" v-model="dateRange" />
+  </p>
+</template>
 ```
 
 ### 6.2. Props
 
 | Name | Type | Default | Require | Description |
 |-------|---- |---------|---------|-------------|
-| value | String, Array | <code>none</code> | false | v-model, option range 설정시 ['', ''] 설정 필요 |
+| modelValue | String, Array | <code>none</code> | false | v-model, option range 설정시 ['', ''] 설정 필요 |
 | validate | Array | <code>[Function]</code> | false | 폼 유효성 검사에 필요한 callback 함수를 배열에 나열 입력 |
 | placeholder | String, Array | <code>none</code> | false | 입력 필드에 placeholder 표시<br>option range 설정시 [시작일, 종료일] 형태로 입력 |
 | range | Boolean | <code>false</code> | false | 시작일과 종료일을 선택할 수 있도록 설정 |
@@ -389,26 +365,32 @@ export default {
 
 ### 7.1. 사용방법
 ```vue
-<template>
-  <div>
-    <p>
-      <validate-wrap :validate="rule" :check-value="files">
-        <input type="file" @change="fileSelected" />
-      </validate-wrap>
-    </p>
-  </div>
-</template>
+<script setup>
+import { ref, reactive } from 'vue'
 
-<script>
-export default {
-  data() {
-    return {
-      files: [],
-      rule: [v => !!v.length || '파일을 선택해주세요.']
-    }
-  },
+let files = ref([])
+
+const rules = reactive({
+  file: [v => !!v.length || '파일을 선택해주세요.'],
+})
+
+function fileSelected(evt) {
+  if (evt.target.files.length) {
+    files.value = evt.target.files
+  } else {
+    files.value = []
+  }
 }
 </script>
+
+<template>
+  <p>
+    <h5>validate wrapping</h5>
+    <validate-wrap :validate="rules.file" :check-value="files">
+      <input type="file" @change="fileSelected" />
+    </validate-wrap>
+  </p>
+</template>
 ```
 
 ### 7.2. Props
@@ -425,10 +407,10 @@ export default {
 
 ## 8. validateForm
   * validateForm 하위 호환 가능한 개체에 대해 유효성 검사 가능한 컴포넌트
-  * validateForm 컴포넌트에 반듯이 <code>ref</code> 설정을 하고 <code>$refs.{refName}.validate()</code> 수행하여 유효성 검사를 진행합니다.
+  * validateForm 컴포넌트에 반듯이 <code>ref</code> 설정을 하고 <code>refName.value.validate()</code> 수행하여 유효성 검사를 진행합니다.
 
 ### 8.1. 사용방법
-> validateForm 예제를 확인 하세요. [예제 보기](https://github.com/dream-insight/frontEnd/blob/main/src/views/form.vue)
+> validateForm 예제를 확인 하세요. [예제 보기](https://github.com/dream-insight/vue3/blob/main/src/views/form.vue)
 
 ### 8.2. Component API Method
 #### <code>Boolean $refs.{refName}.validate()</code>

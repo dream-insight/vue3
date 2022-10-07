@@ -37,6 +37,14 @@ watch(() => props.modelValue, () => {
   resetForm()
 })
 
+watch(errorTransition, (v) => {
+  if (v) {
+    setTimeout(() => {
+      errorTransition.value = false
+    }, 300)
+  }
+})
+
 const labelText = computed(() => props.modelValue === props.trueValue ? props.label[1] : props.label[0])
 
 const check = () => {

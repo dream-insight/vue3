@@ -1,27 +1,21 @@
-<template>
-  <form ref="frm" @submit.prevent>
-    <slot></slot>
-  </form>
-</template>
-
 <script setup>
 import { defineExpose, getCurrentInstance } from 'vue'
 
 const ins = getCurrentInstance()
 
 let checkState = true
-let firstElm = null
+let firstEl = null
 
 function validate() {
   checkState = true
-  firstElm = null
+  firstEl = null
 
   traverse(ins.subTree)
 
   // 검수에 통과하지 못한 가장 첫번째 폼에 포커스
-  if (firstElm !== null) {
+  if (firstEl !== null) {
     try {
-      firstElm.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      firstEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
     } catch (e) { }
   }
 
@@ -63,12 +57,13 @@ function traverse(el, flag = 'dom') {
 
 async function componentCheck(el, flag) {
   const vueDom = [
-    'InputField', 'NumberFormat', 'SelectBox',
-    'SwitchButton', 'CheckButton', 'DatePicker'
+    'inputField', 'numberFormat', 'selectBox',
+    'switchButton', 'checkButton', 'datePicker',
+    'validateWrap'
   ]
 
   // 컴포넌트인지 체크 후 필요한 처리를 한다.
-  if (typeof el.type == 'object') {
+  if (typeof el.type === 'object') {
     let file = el.type.__file.split('/')
     let tagName = file[file.length - 1].split('.')[0]
 
@@ -80,8 +75,8 @@ async function componentCheck(el, flag) {
           checkState = false
 
           // 가장 처음 검수에 통과 하지 못한 폼 저장 (라인 포커스)
-          if (firstElm === null) {
-            firstElm = el.$el
+          if (firstEl === null) {
+            firstEl = el.el
           }
         }
       }
@@ -94,3 +89,9 @@ defineExpose({
   validate
 })
 </script>
+
+<template>
+  <form ref="frm" @submit.prevent>
+    <slot></slot>
+  </form>
+</template>
