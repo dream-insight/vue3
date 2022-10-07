@@ -50,4 +50,4 @@ let page = ref(1)
 ```
 > Fontawesome component는 표시 안되는 오류로 인해 사용 불가(추후 수정 가능)
 
-:arrow_left: [컴포넌트 목록으로이동](https://github.com/dream-insight/frontEnd/tree/main/src)
+:arrow_left: [컴포넌트 목록으로이동](https://github.com/dream-insight/vue3/tree/main/src)

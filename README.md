@@ -1,4 +1,4 @@
-# VueJS Framework v2.x Style guide
+# VueJS Framework v3.x Style guide
 
 ## 참조 문서
 
@@ -1657,7 +1657,7 @@ console.log(comp.value.check())
 ## 16. 이벤트 버스
 
 ### 16.1. 사용하지 않습니다.
-* Event Bus 란? [보기](https://github.com/dream-insight/frontEnd#16-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EB%B2%84%EC%8A%A4)
+* Event Bus 란? [보기](https://github.com/dream-insight/vue3#16-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EB%B2%84%EC%8A%A4)
 * <code>mitt</code>라는 Event bus로 사용할 수 있는 라이브러리가 있지만, 역시 사용하지 않습니다.
 * 참조: [보기](https://github.com/developit/mitt)
 

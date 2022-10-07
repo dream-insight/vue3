@@ -106,4 +106,4 @@ await spinner.timeout(5).show() // 5초 후 스피너가 표시 중이라면 숨
 
 ---
 
-:arrow_left: [컴포넌트 목록으로이동](https://github.com/dream-insight/frontEnd/tree/main/src)
+:arrow_left: [컴포넌트 목록으로이동](https://github.com/dream-insight/vue3/tree/main/src)
