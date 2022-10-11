@@ -20,6 +20,21 @@ import ValidateWrap from '@/components/form/validateWrap'
 import ValidateForm from '@/components/form/validateForm'
 import DatePicker from '@/components/form/datePicker/datePicker'
 
+// fontawesome
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import {
+  faExclamationTriangle, faInfoCircle, faBan, faCheckCircle,
+  faAngleDoubleLeft, faAngleLeft, faAngleRight, faAngleDoubleRight,
+  faQuestionCircle, faExclamationCircle, faArrowDown, faCalendarAlt
+} from '@fortawesome/free-solid-svg-icons'
+
+library.add(
+  faCheckCircle, faInfoCircle, faExclamationTriangle, faBan,
+  faAngleDoubleLeft, faAngleLeft, faAngleRight, faAngleDoubleRight,
+  faQuestionCircle, faExclamationCircle, faArrowDown, faCalendarAlt
+)
+
 async () => await router.isReady()
 
 createApp(App)
@@ -39,4 +54,5 @@ createApp(App)
   .component('DatePicker', DatePicker)
   .component('ValidateWrap', ValidateWrap)
   .component('ValidateForm', ValidateForm)
+  .component('FontAwesomeIcon', FontAwesomeIcon)
   .mount('#app')

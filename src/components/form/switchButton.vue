@@ -100,7 +100,7 @@ defineExpose({
     <p
       :class="['description', { error: errorTransition }]"
       v-if="!isValidate">
-      <i class="fas fa-exclamation-circle" v-if="!isValidate"></i>
+      <FontAwesomeIcon :icon="['fas', 'exclamation-circle']" />
       {{ message }}
     </p>
   </div>

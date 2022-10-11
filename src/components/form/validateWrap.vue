@@ -80,7 +80,7 @@ defineExpose({
     <slot></slot>
 
     <div :class="['error-message']" v-if="message !== ''">
-      <i class="fas fa-exclamation-circle" v-if="!isValidate"></i>
+      <FontAwesomeIcon :icon="['fas', 'exclamation-circle']" />
       {{ message }}
     </div>
   </div>

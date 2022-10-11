@@ -76,7 +76,7 @@ defineExpose({
         v-for="(item, i) in list">
 
         <template v-if="item.icon">
-          <i :class="['icon', 'fas fa-' + item.icon]"></i>
+          <FontAwesomeIcon class="icon" :icon="['fas', item.icon]" />
         </template>
 
         <span class="message">{{ item.message }}</span>

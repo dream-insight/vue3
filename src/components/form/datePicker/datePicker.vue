@@ -682,14 +682,14 @@ defineExpose({
             :placeholder="holderText[0]"
             :value="modelValue[0]"
           />
-          <i class="fas fa-calendar-alt ml-1"></i>
+          <FontAwesomeIcon class="ml-1" :icon="['fas', 'calendar-alt']" />
           &nbsp;&nbsp;~&nbsp;&nbsp;
           <input
             type="text"
             :placeholder="holderText[1]"
             :value="modelValue[1]"
           />
-          <i class="fas fa-calendar-alt"></i>
+          <FontAwesomeIcon :icon="['fas', 'calendar-alt']" />
         </template>
 
         <template v-else>
@@ -698,12 +698,12 @@ defineExpose({
             :placeholder="holderText"
             :value="modelValue"
           />
-          <i class="fas fa-calendar-alt ml-1"></i>
+          <FontAwesomeIcon class="ml-1" :icon="['fas', 'calendar-alt']" />
         </template>
       </div>
 
       <p :class="['description', { error: errorTransition }]" v-if="!isValidate">
-        <i class="fas fa-exclamation-circle ml-1"></i>
+        <FontAwesomeIcon class="ml-1" :icon="['fas', 'exclamation-circle']" />
         {{ message }}
       </p>
     </div>

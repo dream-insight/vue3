@@ -58,11 +58,11 @@ selectedMonth.value = props.month
 <template>
   <div class="select-month">
     <button type="button" class="prev2" @click="changeMonth(-12)">
-      <i class="arrow-icon fas fa-angle-double-left"></i>
+      <FontAwesomeIcon class="arrow-icon" :icon="['fas', 'angle-double-left']" />
     </button>
 
     <button type="button" class="prev" @click="changeMonth(-1)">
-      <i class="arrow-icon fas fa-angle-left"></i>
+      <FontAwesomeIcon class="arrow-icon" :icon="['fas', 'angle-left']" />
     </button>
 
     <div class="date-text">
@@ -90,11 +90,11 @@ selectedMonth.value = props.month
     </div>
 
     <button type="button" class="next" @click="changeMonth(1)">
-      <i class="arrow-icon fas fa-angle-right"></i>
+      <FontAwesomeIcon class="arrow-icon" :icon="['fas', 'angle-right']" />
     </button>
 
     <button type="button" class="next2" @click="changeMonth(12)">
-      <i class="arrow-icon fas fa-angle-double-right"></i>
+      <FontAwesomeIcon class="arrow-icon" :icon="['fas', 'angle-double-right']" />
     </button>
   </div>
 </template>

@@ -100,7 +100,7 @@ onMounted(() => {
 <template>
   <div ref="el" class="tooltip-wrap" @mouseenter="onMouse(true)" @mouseleave="onMouse(false)">
     <slot v-if="showIcon"></slot>
-    <i class="icon fas fa-question-circle" v-else></i>
+    <FontAwesomeIcon class="icon" :icon="['fas', 'question-circle']" v-else />
 
     <transition :name="transitionName">
       <div

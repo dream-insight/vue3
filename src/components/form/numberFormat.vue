@@ -224,7 +224,7 @@ defineExpose({
     <p
       :class="['description', { error: errorTransition }]"
       v-if="message !== '' || successful">
-      <i class="fas fa-exclamation-circle" v-if="!isValidate"></i>
+      <FontAwesomeIcon :icon="['fas', 'exclamation-circle']" />
       {{message}}
       <i class="fas fa-check-circle" v-if="successful"></i>
     </p>

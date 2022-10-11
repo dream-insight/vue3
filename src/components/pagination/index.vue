@@ -86,12 +86,12 @@ makePageList()
     <ul class="pagination">
       <li class="page-item">
         <a class="page-link" href="#" @click.prevent="updateValue(1)">
-          <i class="fas fa-angle-double-left"></i>
+          <FontAwesomeIcon :icon="['fas', 'angle-double-left']" />
         </a>
       </li>
       <li class="page-item">
         <a class="page-link" href="#" @click.prevent="updateValue(prev)">
-          <i class="fas fa-angle-left"></i>
+          <FontAwesomeIcon :icon="['fas', 'angle-left']" />
         </a>
       </li>
 
@@ -104,12 +104,12 @@ makePageList()
 
       <li class="page-item">
         <a class="page-link" href="#" @click.prevent="updateValue(next)">
-          <i class="fas fa-angle-right"></i>
+          <FontAwesomeIcon :icon="['fas', 'angle-right']" />
         </a>
       </li>
       <li class="page-item">
         <a class="page-link" href="#" @click.prevent="updateValue(maxPage)">
-          <i class="fas fa-angle-double-right"></i>
+          <FontAwesomeIcon :icon="['fas', 'angle-double-right']" />
         </a>
       </li>
     </ul>
