@@ -21,14 +21,14 @@ const opt = reactive({
   select: [],
 })
 
-const rules = reactive({
+const rules = {
   checkbox: [v => !(v.length == 0) || '항목을 하나 이상 선택해주세요.'],
   radio: [v => !!v || '항목을 하나 선택해주세요.'],
   input: [v => !!v || '필수 입력 항목입니다.'],
   select: [v => !!v || '필수 선택 항목입니다.'],
   file: [v => !!v.length || '파일을 선택해주세요.'],
   date: [v => !!v || '날짜를 선택해주세요.']
-})
+}
 
 function fileSelected(evt) {
   if (evt.target.files.length) {
