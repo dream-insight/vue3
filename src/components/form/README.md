@@ -139,6 +139,7 @@ const rules = reactive({
 | Name | Type | Default | Require | Description |
 |-------|---- |---------|---------|-------------|
 | modelValue | String | <code>''</code> | false | v-model |
+| type | String | <code>text</code> | false | text or password, tel,  |
 | multiline | Boolean | <code>false</code> | false | textarea 폼으로 변경 |
 | block | Boolean | <code>false</code> | false | display: block 설정 |
 | rows | Number | <code>5</code> | false | multiline 설정시 textarea 높이를 설정 |

@@ -64,19 +64,22 @@ async function componentCheck(el, flag) {
 
   // 컴포넌트인지 체크 후 필요한 처리를 한다.
   if (typeof el.type === 'object') {
-    let file = el.type.__file.split('/')
-    let tagName = file[file.length - 1].split('.')[0]
+    // npm install 된 컴포넌트는 __file property 없기 때문에 통과
+    if (el.type.__file !== undefined) {
+      let file = el.type.__file.split('/')
+      let tagName = file[file.length - 1].split('.')[0]
 
-    if (vueDom.indexOf(tagName) > -1) {
-      if (flag == 'reset') {
-        el.component.exposed.resetForm()
-      } else {
-        if (!el.component.exposed.check() && checkState) {
-          checkState = false
+      if (vueDom.indexOf(tagName) > -1) {
+        if (flag == 'reset') {
+          el.component.exposed.resetForm()
+        } else {
+          if (!el.component.exposed.check() && checkState) {
+            checkState = false
 
-          // 가장 처음 검수에 통과 하지 못한 폼 저장 (라인 포커스)
-          if (firstEl === null) {
-            firstEl = el.el
+            // 가장 처음 검수에 통과 하지 못한 폼 저장 (라인 포커스)
+            if (firstEl === null) {
+              firstEl = el.el
+            }
           }
         }
       }
