@@ -504,7 +504,6 @@ const getText = (target) => eval(`obj.${target}`)
 
 // Good
 const getText = (target) => obj[target]
-
 ```
 
 ### 6.4. 오브젝트 복사
@@ -548,6 +547,32 @@ const cp = Object.assign({}, this.obj) // Good
 const cp = { ...this.obj } // Best
 ```
 * 위와 같이 object 깊은 복사(shallow copy)를 통해 데이터 참조의 고리를 끊을 수 있게 됩니다.
+
+### 6.5. Property undefined
+* 단축구문을 사용하는 경우 간혹 property가 undefined 상태 일수도 있습니다.
+```json
+// index.json
+{
+  "text1": "드림",
+  "text2": "인사이트"
+}
+```
+```javascript
+import json from './index.json'
+
+const { text1, text2, text3 } = json
+let flag = 'test'
+
+axios.post('/some/url', {
+  flag,
+  text1,
+  text2,
+  text3
+})
+```
+* 위와 같은 상황에서 <code>text3</code>는 undefined 상태입니다.
+* 해당 변수를 객체에 담아 서버에 전송할 경우 서버에서는 post 객체에서 <code>text3</code> 인자를 읽어 드리지 못 합니다.
+* 이것은 흔하지는 않지만 Back-end에서 오류를 일으키는 요인이 됩니다.
 
 :arrow_up: [목차](#목차)
 
@@ -2037,3 +2062,4 @@ const { VUE_APP_VERSION, VUE_APP_API_URL } = process.env
 ---
 
 * 초안 작성 2022.10.07 (작성자: 김종윤 수석 매니저)
+* 항목 6.5 추가작성 2022.10.18 (작성자: 김종윤 수석 매니저)
