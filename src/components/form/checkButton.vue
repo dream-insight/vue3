@@ -81,6 +81,7 @@ const successful = computed(() => props.isValidate && checkPass.value)
 
 function setIndex(index) {
   clickIndex.value = index
+  emit('update:modelValue', val.value)
 }
 
 function checkValue(index, v) {
@@ -104,7 +105,7 @@ function checkValue(index, v) {
     val.value = model
   }
 
-  emit('update:modelValue', val)
+  emit('update:modelValue', val.value)
 }
 
 /**
