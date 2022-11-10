@@ -69,7 +69,7 @@ watch(() => props.items, (data) => {
 })
 
 
-function setHeader() {
+const setHeader = () => {
   if (props.header.length) {
     // 정렬이 지정되어 있는 경우 해당 컬럼을 정렬해준다.
     if (props.multiHeader > 0) {
@@ -116,11 +116,11 @@ function setHeader() {
   }
 }
 
-function checkAllEvent(evt) {
+const checkAllEvent = (evt) => {
   emit('checked', evt.target.checked)
 }
 
-function setSort(target, order) {
+const setSort = (target, order) => {
   target.value = target
 
   if (order === 'desc') {
@@ -134,7 +134,7 @@ function setSort(target, order) {
   sorting()
 }
 
-function sorting() {
+const sorting = () => {
   if (target.value !== '') {
     if (order.value) {
       dataList.value.sort((a, b) => {

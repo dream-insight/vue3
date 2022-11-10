@@ -36,7 +36,6 @@ const el = ref(null)
 
 let isShow = ref(false)
 let picker = ref(null)
-let width = ref(750)
 let holderText = ref('')
 
 let nowChecked = ref(0)
@@ -176,7 +175,7 @@ const selectedDateView = computed(() => {
   return ''
 })
 
-function init() {
+const init = () => {
   const date = new Date()
 
   curYear.value = date.getFullYear()
@@ -196,7 +195,7 @@ function init() {
   timeState.end = 0
 }
 
-function toggleCalendar() {
+const toggleCalendar = () => {
   // 달력 표시 전 처리
   const bodyRect = document.body.getBoundingClientRect()
   const rect = el.value.getBoundingClientRect()
@@ -229,7 +228,7 @@ function toggleCalendar() {
   isShow.value = !isShow.value
 }
 
-function makeCanlendar(flag) {
+const makeCanlendar = (flag) => {
   // 달력 생성
   const startWeek = new Date(dateState[flag].year, dateState[flag].month, 1).getDay()
   const lastDay = new Date(dateState[flag].year, dateState[flag].month + 1, 0).getDate()
@@ -285,14 +284,14 @@ function makeCanlendar(flag) {
   }
 }
 
-function getBeforeDay(year, month, week) {
+const getBeforeDay = (year, month, week) => {
   // 전달의 마지막 날짜 표시
   const day = new Date(year, month, 0).getDate()
 
   return day - week + 1
 }
 
-function changeMonth(flag, increase) {
+const changeMonth = (flag, increase) => {
   // 버튼을 통해 달을 변경
   let change = false
 
@@ -344,7 +343,7 @@ function changeMonth(flag, increase) {
   }
 }
 
-function changeYearMonth(flag, target, value) {
+const changeYearMonth = (flag, target, value) => {
   // 년 월 select box 변경 이벤트
   dateState[flag][target] = value
 
@@ -360,7 +359,7 @@ function changeYearMonth(flag, target, value) {
   }, 150)
 }
 
-function pickCaseDate(flag) {
+const pickCaseDate = (flag) => {
   toggleDateButton[nowChecked.value].checked = false
   toggleDateButton[flag].checked = true
 
@@ -452,7 +451,7 @@ function pickCaseDate(flag) {
   updateValue()
 }
 
-function selectedDay(tr, td, flag = 'start') {
+const selectedDay = (tr, td, flag = 'start') => {
   selectedError.value = ''
 
   // 날짜 선택
@@ -492,7 +491,7 @@ function selectedDay(tr, td, flag = 'start') {
   }
 }
 
-function dateFormat(year, month, day) {
+const dateFormat = (year, month, day) => {
   let date = `${year}-`
 
   if (month + 1 < 10) {
@@ -510,17 +509,17 @@ function dateFormat(year, month, day) {
   return date
 }
 
-function cancel() {
+const cancel = () => {
   resetForm()
   isShow.value = false
 }
 
-function accept() {
+const accept = () => {
   updateValue()
   isShow.value = false
 }
 
-function updateValue() {
+const updateValue = () => {
   // 종료 날짜가 시작 날짜보다 작지 않을 경우 데이터 적용
   if (props.range) {
     if (selected.start.date && selected.end.date) {
@@ -536,7 +535,7 @@ function updateValue() {
   }
 }
 
-function resetForm() {
+const resetForm = () => {
   init()
 
   if (props.range) {
@@ -549,14 +548,14 @@ function resetForm() {
   }
 }
 
-function resetError() {
+const resetError = () => {
   message.value = ''
   onError.value = false
   errorTransition.value = false
   isValidate.value = true
 }
 
-function check() {
+const check = () => {
   // 데이터 검증
   if (props.validate.length) {
     for (let i = 0; i < props.validate.length; i++) {
@@ -586,7 +585,7 @@ function check() {
   return true
 }
 
-Date.prototype.getDateFormat = function(format, days = 0) {
+Date.prototype.getDateFormat = (format, days = 0) => {
   let date = this
 
   if (days !== 0) {
@@ -764,7 +763,7 @@ defineExpose({
             <div class="calendar end_calendar">
               <div class="start-end-text">종료일</div>
 
-              <date-controller
+              <DateController
                 :is-show="isShow"
                 :year="dateState.end.year"
                 :month="dateState.end.month"
@@ -824,7 +823,7 @@ defineExpose({
             <div class="calendar-inner">
               <div class="calendar">
 
-                <date-controller
+                <DateController
                   :is-show="isShow"
                   :year="dateState.start.year"
                   :month="dateState.start.month"

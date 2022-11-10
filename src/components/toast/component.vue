@@ -27,7 +27,7 @@ watch(list, (items) => {
   }
 })
 
-function show() {
+const show = () => {
   console.log(icon.value)
   list.value.push({
     key,
@@ -50,7 +50,7 @@ function show() {
   }
 }
 
-function hide(index = 0) {
+const hide = (index = 0) => {
   try {
     clearTimeout(timeout[list.value[index].key])
 

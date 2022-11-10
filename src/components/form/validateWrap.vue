@@ -34,7 +34,7 @@ let checkPass = ref(false)
 let message = ref('')
 
 
-function check() {
+const check = () => {
   // 임의로 지정된 에러가 없는 경우
   if (props.errorMessage === '') {
     // validate check
@@ -63,7 +63,7 @@ function check() {
   return false
 }
 
-function resetForm() {
+const resetForm = () => {
   isValidate.value = true
   checkPass.value = false
   message.value = ''

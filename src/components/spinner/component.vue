@@ -28,12 +28,12 @@ watch(progress, (after) => {
   }
 })
 
-function destroy() {
+ const destroy = () => {
   isOpen.value = false
   props.destroy.call()
 }
 
-function waiting() {
+ const waiting = () => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve()
@@ -41,7 +41,7 @@ function waiting() {
   })
 }
 
-async function show(msg) {
+ const show = async (msg) => {
   if (msg !== '') {
     message.value = msg
   }
@@ -59,7 +59,7 @@ async function show(msg) {
   }, props.limitTime * 1000)
 }
 
-async function hide() {
+const hide = async () => {
   await waiting()
 
   if (progress.value) {

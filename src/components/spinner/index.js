@@ -3,8 +3,8 @@ import SpinnerComponent from './component'
 
 export default {
   install: (app, options = null) => {
-    const body = document.querySelector('body')
     let VNode = null
+    const body = document.querySelector('body')
     const props = {
       limitTime: 10,
       destroy: () => {

@@ -79,12 +79,12 @@ watch(errorTransition, (v) => {
 
 const successful = computed(() => props.isValidate && checkPass.value)
 
-function setIndex(index) {
+const setIndex = (index) => {
   clickIndex.value = index
   emit('update:modelValue', val.value)
 }
 
-function checkValue(index, v) {
+const checkValue = (index, v) => {
   setIndex(index)
 
   if (props.type === 'checkbox') {
@@ -113,7 +113,7 @@ function checkValue(index, v) {
  *
  * @return { Boolean }
 */
-function check() {
+const check = () => {
   if (props.errorMessage === '') {
     // validate check
     if (props.validate.length > 0) {
@@ -143,13 +143,13 @@ function check() {
   return true
 }
 
-function resetValidate() {
+const resetValidate = () => {
   message.value = ''
   isValidate.value = true
   errorTransition.value = false
 }
 
-function resetForm() {
+const resetForm = () => {
   val.value = (props.type == 'checkbox') ? [''] : ''
 }
 

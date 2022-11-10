@@ -14,22 +14,21 @@
 2. [명명 규칙](#2-명명-규칙)
 3. [변수 선언과 자료형](#3-변수-선언과-자료형)
 4. [함수](#4-함수)
-5. [화살표 함수](#5-화살표-함수)
-6. [오브젝트 프로퍼티](#6-오브젝트-프로퍼티)
-7. [문자열](#7-문자열)
-8. [연산자](#8-연산자)
-9. [블럭](#9-블럭)
-10. [반복문](#10-반복문)
-11. [세미콜론](#11-세미콜론)
-12. [공백과 들여쓰기](#12-공백과-들여쓰기)
-13. [코멘트](#13-코멘트)
-14. [Vue 템플릿](#14-Vue-템플릿)
-15. [컴포넌트 SFC](#15-컴포넌트-SFC)
-16. [Provide & Inject](#16-Provide-&-Inject)
-17. [이벤트 버스](#17-이벤트-버스)
-18. [상태 관리자 Vuex](#18-상태-관리자-Vuex)
-19. [라우터 Router](#19-라우터-Router)
-20. [env 파일 활용](#20-env-파일-활용)
+5. [오브젝트 프로퍼티](#5-오브젝트-프로퍼티)
+6. [문자열](#6-문자열)
+7. [연산자](#7-연산자)
+8. [블럭](#8-블럭)
+9. [반복문](#9-반복문)
+10. [세미콜론](#10-세미콜론)
+11. [공백과 들여쓰기](#11-공백과-들여쓰기)
+12. [코멘트](#12-코멘트)
+13. [Vue 템플릿](#13-Vue-템플릿)
+14. [컴포넌트 SFC](#14-컴포넌트-SFC)
+15. [Provide & Inject](#15-Provide-&-Inject)
+16. [이벤트 버스](#16-이벤트-버스)
+17. [상태 관리자 Vuex](#17-상태-관리자-Vuex)
+18. [라우터 Router](#18-라우터-Router)
+19. [env 파일 활용](#19-env-파일-활용)
 
 * [Vue3.x Component & Plugin 모음](https://github.com/dream-insight/vue3/tree/main/src)
 
@@ -94,7 +93,7 @@ watch(() => options.text, (txt, preTxt) => {
   // something to do
 })
 
-function getList() {
+const getList = () => {
   // something to do
 }
 
@@ -251,7 +250,7 @@ const dream = 'dream'
 let count = ref(0)
 let text = ref('값이 변하지 않습니다.')
 
-function increase() {
+const increase = () => {
   count.value++
 }
 
@@ -277,14 +276,14 @@ onMounted(() => {
 ---
 
 ## 4. 함수
-### 4.1. 함수선언과 함수식을 구분하여 사용하세요.
+### 4.1. 함수는 화살표 함수를 사용하여 선언하세요.
 ```javascript
-// Bad (함수식)
+// bad (함수식)
 const func = function() {
   ...
 }
 
-// Good (함수 선언)
+// not good
 function func() {
   ...
 }
@@ -294,28 +293,6 @@ const func = () => {
   ...
 }
 ```
-> 함수 선언 방식과, 함수식으로 정의 하는 방식은 hoisting 방식이 다릅니다.
-
-```javascript
-// it's working
-getCodeName('tag')
-
-function getCodeName(key) {
-  return code[key]
-}
-
-// error
-getCodeString('tag')
-
-const getCodeString = (key) => {
-  return code[key]
-}
-
-const getCodeString = function(key) {
-  return code[key]
-}
-```
-> 우리가 변수를 사용하기 전에 먼저 선언해주는 것과 같습니다. 함수 선언 방식은 변수를 선언하는 것과 동일하게 여겨집니다.
 
 ### 4.2. 함수를 명확히 구분하여 사용하세요. (void, return)
 * 대부분의 언어에서는 함수에 대해 명확히 정의 하기를 요구합니다.
@@ -327,7 +304,7 @@ import { useStore } from 'vuex'
 const store = useStore()
 let userName = ''
 
-function getUserName() {
+const getUserName = () => {
   // return
   let text = '당신은 ' + store.getters.getFamilyName +
             '씨이고, 이름은 ' + store.getters.getYourName + '입니다'
@@ -337,7 +314,7 @@ function getUserName() {
 
 userName = getUserName()
 
-function setUserName() {
+const setUserName = () => {
   // void
   userName = '당신은 ' + store.getters.getFamilyName +
             '씨이고, 이름은 ' + store.getters.getYourName + '입니다'
@@ -353,7 +330,7 @@ let name = '홍길동'
 let familyName = ''
 
 // Bad
-function isUserName() {
+const isUserName = () => {
   if (name.substr(0, 1) !== '김') {
     return false
   } else {
@@ -364,7 +341,7 @@ function isUserName() {
 isUserName()
 
 // Good
-function setFamilyName() {
+const setFamilyName = () => {
   if (name.substr(0, 1) !== '김') {
     return
   }
@@ -382,7 +359,7 @@ setFamilyName()
 * 전달 인자의 값을 직접적으로 변이 하여 사용하게 되면, 찾기 힘든 오류가 발생 할 수도 있습니다.
 ```javascript
 // Bad
-getSizeOfArray(prm) {
+const getSizeOfArray = (prm) => {
   if (prm === undefined) {
     prm = []
   }
@@ -391,7 +368,7 @@ getSizeOfArray(prm) {
 }
 
 // Good
-getObjectLength(prm = {}) {
+const getObjectLength = (prm = {}) => {
   return Object.keys(prm).length
 }
 
@@ -403,9 +380,7 @@ let objSize = getObjectLength()
 
 ---
 
-## 5. 화살표 함수
-
-### 5.1. 함수에 전달되어 지는 함수(callback)는 필히 화살표 무명함수를 사용하세요.
+### 4.4. 함수에 전달되어 지는 함수(callback)는 필히 화살표 무명함수를 사용하세요.
 ```javascript
 const ary = [1, 2, 3, 4, 5]
 
@@ -420,7 +395,7 @@ const good = ary.map((item) => {
 })
 ```
 
-### 5.2. 간단한 연산에 대해서는 암시적 <code>return</code>을 이용하여 주세요.
+### 4.5. 간단한 연산에 대해서는 암시적 <code>return</code>을 이용하여 주세요.
 ```javascript
 const ary = [1, 2, 3, 4, 5]
 
@@ -443,7 +418,7 @@ const bad = ary.map((num) => {
 })
 ```
 
-### 5.3. 함수의 인자가 1개인 경우 괄호를 생략할 수 있고, 사용되지 않는 인자는 생략 하여도 됩니다.
+### 4.6. 함수의 인자가 1개인 경우 괄호를 생략할 수 있고, 사용되지 않는 인자는 생략 하여도 됩니다.
 ```javascript
 const ary = [1, 2, 3, 4, 5]
 
@@ -461,9 +436,9 @@ ary.filter((, index) => index % 2 == 0)
 
 ---
 
-## 6. 오브젝트 프로퍼티
+## 5. 오브젝트 프로퍼티
 
-### 6.1. 프로퍼티에 값을 할당할 시 가능한한 단축구문 사용하세요.
+### 5.1. 프로퍼티에 값을 할당할 시 가능한한 단축구문 사용하세요.
 ```javascript
 let text = '드림인사이트'
 let value = 'dreaminsight'
@@ -478,7 +453,7 @@ let obj = {
 let obj = { text, value }
 ```
 
-### 6.2. 프로퍼티에 접근시 점(<code>.</code>)을 이용해주세요.
+### 5.2. 프로퍼티에 접근시 점(<code>.</code>)을 이용해주세요.
 ```javascript
 let obj = {
   text: '드림인사이트',
@@ -492,7 +467,7 @@ console.log(obj['text'])
 console.log(obj.text)
 ```
 
-### 6.3. 변수로 접근 시에는 배열형으로 접근하세요.
+### 5.3. 변수로 접근 시에는 배열형으로 접근하세요.
 ```javascript
 let obj = {
   text: '드림인사이트',
@@ -506,7 +481,7 @@ const getText = (target) => eval(`obj.${target}`)
 const getText = (target) => obj[target]
 ```
 
-### 6.4. 오브젝트 복사
+### 5.4. 오브젝트 복사
 * 오브젝트를 따로 복사하여 사용할 때에는 아래의 사항에 유의 하세요.
 ```vue
 <script setup>
@@ -548,7 +523,7 @@ const cp = { ...this.obj } // Best
 ```
 * 위와 같이 object 깊은 복사(shallow copy)를 통해 데이터 참조의 고리를 끊을 수 있게 됩니다.
 
-### 6.5. Property undefined
+### 5.5. Property undefined
 * 단축구문을 사용하는 경우 간혹 property가 undefined 상태 일수도 있습니다.
 ```json
 // index.json
@@ -578,8 +553,8 @@ axios.post('/some/url', {
 
 ---
 
-## 7. 문자열
-### 7.1. 문자열은 더블쿼트 <code>""</code>는 사용하지 않습니다. 모든 문자열은 싱글쿼트로 <code>''</code> 처리 합니다
+## 6. 문자열
+### 6.1. 문자열은 더블쿼트 <code>""</code>는 사용하지 않습니다. 모든 문자열은 싱글쿼트로 <code>''</code> 처리 합니다
 ```javascript
 // Bad
 const str = "드림인사이트 개발팀"
@@ -588,7 +563,7 @@ const str = "드림인사이트 개발팀"
 const str = '드림인사이트 개발팀'
 ```
 
-### 7.2. 문자열 연결할 수 있는 방법은 <code>String().concat()</code>, <code>+</code> 등이 있지만, 사용하지 않습니다.
+### 6.2. 문자열 연결할 수 있는 방법은 <code>String().concat()</code>, <code>+</code> 등이 있지만, 사용하지 않습니다.
 ```javascript
 const company = '드림인사이트'
 const team = '개발팀'
@@ -598,7 +573,7 @@ const str1 = company.concat(' ', team)    // '드림인사이트 개발팀'
 const str2 = company + ' ' + team         // '드림인사이트 개발팀'
 ```
 
-### 7.3. 템플릿 문자열 조합은 복잡한 문장을 만들때도 매우 편리 하며, 특히 가독성이 좋습니다.
+### 6.3. 템플릿 문자열 조합은 복잡한 문장을 만들때도 매우 편리 하며, 특히 가독성이 좋습니다.
 ```javascript
 const gender = 'M'
 const name = 'Julia'
@@ -616,7 +591,7 @@ if (result === '') {
 }
 ```
 
-### 7.4. 문자열이 너무 길 경우, 템플릿 문자열을 활용하여 줄내림을 표현합니다.
+### 6.4. 문자열이 너무 길 경우, 템플릿 문자열을 활용하여 줄내림을 표현합니다.
 ```javascript
 const str = `우리집강아지는 복슬 강아지,
 학교갔다 돌아오면 멍멍멍,
@@ -628,8 +603,8 @@ const str = `우리집강아지는 복슬 강아지,
 
 ---
 
-## 8. 연산자
-### 8.1. 비교 연산자
+## 7. 연산자
+### 7.1. 비교 연산자
 * 연산자는 정확힌 비교를 위하여 <code>===</code>, <code>!==</code>를 사용하세요.
 * 문자형은 <code>''</code> 값을 제외한 모든 값을 <code>true</code>로 간주 됩니다.
 ```javascript
@@ -702,7 +677,7 @@ if (obj.text === undefined) {
 }
 ```
 
-### 8.2. 논리 연산자 및 3항 연산자
+### 7.2. 논리 연산자 및 3항 연산자
 ```javascript
 // 논리 연산을 통한 값 할당
 const str = 'apple'
@@ -738,7 +713,7 @@ if (apple) {
 ```
   > 중첩 3항 연산은 길이가 짧다고 하여도, 가독성이 매우 떨어집니다. 이는 익숙하지 않은 사람에게 더욱더 그렇습니다.
 
-### 8.3. 너무 긴 연산문
+### 7.3. 너무 긴 연산문
 * 연산문 자체가 길이가 긴 경우 또는 조건문 자체가 긴 경우, 해당 결과를 변수에 담아 표현하세요.
 ```javascript
 let people = 10
@@ -784,17 +759,17 @@ if (covid && people > 4 && hours > 16 && vaccine) {
 
 ---
 
-## 9. 블럭
-### 9.1. 블럭이 필요한 모든 문법에서 블럭을 사용하세요. 람다식은 예외로 합니다.
+## 8. 블럭
+### 8.1. 블럭이 필요한 모든 문법에서 블럭을 사용하세요. 람다식은 예외로 합니다.
 ```javascript
 // Bad
-function isOpenMarket() {
+const isOpenMarket = () => {
   if (isOpen) return true
   else return false
 }
 
 // Bad
-function isOpenMarket() {
+cosnt isOpenMarket = () => {
   if (isOpen) { return true }
   else { return false}
 }
@@ -803,7 +778,7 @@ function isOpenMarket() {
 function isOpenMarket() { return isOpen }
 
 // Good
-function isOpenMarket() {
+const isOpenMarket = () => {
   if (isOpen) {
     return true
   } else {
@@ -815,7 +790,7 @@ function isOpenMarket() {
 const isOpenMarket = () => isOpen
 ```
 
-### 9.2. <code>if</code> 와 <code>else</code> 사이의 블럭 연결 부분에서 개행 하지 않도록 합니다.
+### 8.2. <code>if</code> 와 <code>else</code> 사이의 블럭 연결 부분에서 개행 하지 않도록 합니다.
 ```javascript
 // Bad
 if (isOpen) {
@@ -833,7 +808,7 @@ if (isOpen) {
 }
 ```
 
-### 9.3. 블럭이 종료된 후에는 반듯이 개행 해줍니다.
+### 8.3. 블럭이 종료된 후에는 반듯이 개행 해줍니다.
 ```javascript
 // Bad
 if (isOpen) {
@@ -861,8 +836,8 @@ if (isCook) {
 
 ---
 
-## 10. 반복문
-### 10.1. 이터러블(<code>for-of</code>) 대신 <code>map()</code>, <code>reduce()</code>와 같은 고급 함수를 사용하세요.
+## 9. 반복문
+### 9.1. 이터러블(<code>for-of</code>) 대신 <code>map()</code>, <code>reduce()</code>와 같은 고급 함수를 사용하세요.
 ```javascript
 const numbers = [1, 2, 3, 4, 5]
 
@@ -883,7 +858,7 @@ const sum = numbers.reduce((total, num) => total + num, 0)
 ```
 > 위의 코드는 AirBnB의 JS Convention 코드를 인용하였습니다. [링크 참조](https://github.com/tipjs/javascript-style-guide#%EC%9D%B4%ED%84%B0%EB%A0%88%EC%9D%B4%ED%84%B0%EC%99%80-%EC%A0%9C%EB%84%88%EB%A0%88%EC%9D%B4%ED%84%B0iterators-and-generators)
 
-### 10.2. 특히 오브젝트 프로퍼티 탐색시 이터러블이 종종 사용 됩니다.
+### 9.2. 특히 오브젝트 프로퍼티 탐색시 이터러블이 종종 사용 됩니다.
 ```javascript
 let values = []
 let items = []
@@ -914,7 +889,7 @@ Object.keys(obj).map(key => {
 })
 ```
 
-### 10.3. 중첩 Loop
+### 9.3. 중첩 Loop
 * 우리는 JSON 데이터형식을 매우 많이 사용하고, 이것을 탐색하여 데이터를 가공하는 코드를 빈번하게 작성합니다.
 ```javascript
 const data = [
@@ -994,7 +969,7 @@ for (let i = 0; i < data.length; i++) {
   > 가장 위험한 <code>Infinity loop</code>(무한루프) 발생할 확율이 매우 높습니다.
 * 이러한 문제를 해결하기 위해 <code>Recursion Function</code>을(재귀함수) 사용하기 권합니다.
 ```javascript
-function makeDOM(data = {}) {
+const makeDOM = (data = {}) => {
   let doms = []
 
   if (Object.keys(data).length) {
@@ -1021,7 +996,7 @@ const tags = makeDOM(data)
 
 ---
 
-## 11. 세미콜론
+## 10. 세미콜론
 * 생략 합니다.
   > webpack을 통해 빌드 될때 세미콜론은 자동으로 생성됩니다. 웹팩의 수고를 고맙게 생각합시다.
 ```javascript
@@ -1054,9 +1029,9 @@ switch (type) {
 
 ---
 
-## 12. 공백과 들여쓰기
+## 11. 공백과 들여쓰기
 
-### 12.1. 들여쓰기는 <code>Tab</code>이 아닌 <code>Space</code>로 정하고, 2칸으로 설정하세요.
+### 11.1. 들여쓰기는 <code>Tab</code>이 아닌 <code>Space</code>로 정하고, 2칸으로 설정하세요.
 ```javascript
 // Bad
 if (isOpen) {
@@ -1075,7 +1050,7 @@ if (isOpen) {
 ··// do something
 }
 ```
-### 12.2. 연산자, 등호, 제어문, 콤마 뒤에는 공백으로 구분하세요.
+### 11.2. 연산자, 등호, 제어문, 콤마 뒤에는 공백으로 구분하세요.
 ```javascript
 // Bad
 const isOpen=true
@@ -1116,7 +1091,7 @@ for (let i = 0; i < num; i++) {
 const test = () => num
 ```
 
-### 12.3. 괄호, 대괄호(배열) 안쪽 앞뒤로 공백을 삽입하지마세요.
+### 11.3. 괄호, 대괄호(배열) 안쪽 앞뒤로 공백을 삽입하지마세요.
 ```javascript
 // Bad
 const timeList = [ 0, 1, 2, 3, 4 ]
@@ -1127,7 +1102,7 @@ if ( isOpen ) {
 
 const date = ( isOpen ) ? new Date() : false
 
-function getTime( time ) {
+const getTime = ( time ) => {
   return timeList[ time ]
 }
 
@@ -1141,12 +1116,12 @@ if (isOpen) {
 
 const date = (isOpen) ? new Date() : false
 
-function getTime(time) {
+const getTime = (time) => {
   return timeList[time]
 }
 ```
 
-### 12.4. 중괄호(<code>{}</code>) 안쪽 앞뒤로 공백을 삽입해주세요.
+### 11.4. 중괄호(<code>{}</code>) 안쪽 앞뒤로 공백을 삽입해주세요.
 ```javascript
 // Bad
 import {getDateTime} from 'datetime'
@@ -1176,7 +1151,7 @@ const obj = { text: '', value: '' }
 
 :arrow_up: [목차](#목차)
 
-### 12.5. 메서드 체이닝
+### 11.5. 메서드 체이닝
 * 길게 나열되는 메서드 체이닝은 가독성이 떨어지는 경우가 종종 있습니다.
 * 이러한 경우 내려쓰기와 들여쓰기로 정리해주세요.
 ```javascript
@@ -1217,8 +1192,8 @@ obj
 
 ---
 
-## 13. 코멘트
-### 13.1. 라인 코멘트는 필요한 라인 윗쪽에 표기 하세요.
+## 12. 코멘트
+### 12.1. 라인 코멘트는 필요한 라인 윗쪽에 표기 하세요.
 ```javascript
 // Bad
 let text1 = ref('')      // 텍스트를 표시 합니다.
@@ -1228,7 +1203,7 @@ let text1 = ref('')      // 텍스트를 표시 합니다.
 let text2 = ref('')
 ```
 
-### 13.2. 제어문
+### 12.2. 제어문
 * 제어문에 대한 코멘트 작성시, 최상단에 표기하고, 제어 구분마다 표기 시에는 안쪽에 서술해주세요.
 ```javascript
 // Bad
@@ -1251,13 +1226,13 @@ if (isOpen) {
 }
 ```
 
-### 13.3. 긴 코멘트가 필요한 경우 <code>/** */</code>로 기술합니다.
+### 12.3. 긴 코멘트가 필요한 경우 <code>/** */</code>로 기술합니다.
 ```javascript
 // Bad
 // 마켓이 열려 있으면 사과와 바나나를 사도록하고,
 // 그렇지 않을 경우 편의점에 가서 우유를 삽니다.
 // 만약 편의 점도 닫혀 있다면 집으로 돌아 옵니다.
-function goMart(isOpen) {
+const goMart = (isOpen) => {
   // ...
   return total
 }
@@ -1271,7 +1246,7 @@ function goMart(isOpen) {
  * @param { Boolean } isOpen
  * @return { Number } 구매한 총 수량을 반환
 */
-function goMart(isOpen) {
+goMart = (isOpen) => {
   // ...
   return total
 }
@@ -1282,8 +1257,8 @@ function goMart(isOpen) {
 
 ---
 
-## 14. Vue 템플릿 문법
-### 14.1. 테그는 길게 늘어 놓지 않습니다.
+## 13. Vue 템플릿 문법
+### 13.1. 테그는 길게 늘어 놓지 않습니다.
 * 계층 구조에 맞도록 개행과 들여쓰기로 구분해주세요.
 ```vue
 <template>
@@ -1326,7 +1301,7 @@ function goMart(isOpen) {
 </template>
 ```
 
-### 14.2. 태그 싱글 톤과 닫기를 명확히 사용합니다.
+### 13.2. 태그 싱글 톤과 닫기를 명확히 사용합니다.
 ```vue
 <template>
   <div>
@@ -1342,7 +1317,7 @@ function goMart(isOpen) {
 ```
 > 닫기가 있는 태그는 필히 닫기를 해주고, 싱글 톤은 <code>< /></code>형태로 닫아 줍니다.
 
-### 14.3. <code>v-bind, v-on</code> 디렉티브는 약어<code>:, @</code> 표기 하고, 동적 전달은 지양합니다.
+### 13.3. <code>v-bind, v-on</code> 디렉티브는 약어<code>:, @</code> 표기 하고, 동적 전달은 지양합니다.
 ```vue
 <template>
   <div>
@@ -1361,7 +1336,7 @@ function goMart(isOpen) {
 ```
 > 동적 전달을 사용할 경우 코드가 불분명해지고, 가독성이 떨어집니다.
 
-### 14.4. 조건부 랜더링 구현시에는 의미 없는 태그 사용을 자제하세요.
+### 13.4. 조건부 랜더링 구현시에는 의미 없는 태그 사용을 자제하세요.
 ```vue
 <template>
   <div>
@@ -1389,7 +1364,7 @@ function goMart(isOpen) {
 ```
 
 
-### 14.5. <code>v-for</code>와 <code>v-if</code>를 같은 테그에 함께 사용하지 마세요.
+### 13.5. <code>v-for</code>와 <code>v-if</code>를 같은 테그에 함께 사용하지 마세요.
 ```vue
 <template>
   <div>
@@ -1406,7 +1381,7 @@ function goMart(isOpen) {
 </template>
 ```
 
-### 14.6. 속성(Attribute) 및 디렉티브 나열 순서를 지켜 주세요. 나열되는 종류가 많을 경우 개행 및 들여쓰기로 구분해주세요.
+### 13.6. 속성(Attribute) 및 디렉티브 나열 순서를 지켜 주세요. 나열되는 종류가 많을 경우 개행 및 들여쓰기로 구분해주세요.
 ```vue
 <template>
   <div>
@@ -1426,7 +1401,7 @@ function goMart(isOpen) {
 ```
 > 디렉티브 나열 순서: 일반 bind -> 변수(숫자) bind(:) -> 이벤트(@) -> v-html -> v-model -> v-for -> v-if
 
-### 14.7. 같은 속성을 중복하여 사용하지 마세요.
+### 13.7. 같은 속성을 중복하여 사용하지 마세요.
 ```vue
 <template>
   <div>
@@ -1439,7 +1414,7 @@ function goMart(isOpen) {
 </template>
 ```
 
-### 14.8. 템플릿 안에 복잡한 수식 사용은 지양합니다.
+### 13.8. 템플릿 안에 복잡한 수식 사용은 지양합니다.
 ```vue
 <template>
   <div>
@@ -1477,19 +1452,19 @@ export default {
 
 ---
 
-## 15. 컴포넌트 SFC
+## 14. 컴포넌트 SFC
 
-### 15.1. 컴포넌트 명명
-* 컴포넌트 template 배치시에 케밥캐이스로 구분 합니다.
+### 14.1. 컴포넌트 명명
+* 컴포넌트 template 배치시에 파스칼케이스(Pascal-Case)로 구분 합니다.
 ```vue
 <template>
   <div>
     <!-- Bad -->
     <check_button />
-    <CheckButton />
+    <check-button />
 
     <!-- Good -->
-    <check-button />
+    <CheckButton />
   </div>
 </template>
 
@@ -1503,7 +1478,7 @@ import CheckButton from '@/components/checkButton'
 </script>
 ```
 
-### 15.2. Props 정의
+### 14.2. Props 정의
 * 모든 Props에 대해 자료형을 정의하고, 그외 필요한 옵션을 정의 하세요.
 * 자료형외에 필요한 부분이 없다면 자료형 정의만 하여도 무관합니다.
 ```vue
@@ -1558,7 +1533,7 @@ const props = defineProps({
 </template>
 ```
 
-### 15.3. emit 정의
+### 14.3. emit 정의
 * <code>getCurrentInstance()</code>를 통해 emit 처리 하지 않도록 합니다.
 * 발생 가능한 이벤트를 모두 정의해주세요.
 ```vue
@@ -1589,7 +1564,7 @@ emit('update:modelValue', value)
 하지만 관리차원에서 항상 이벤트를 정의 해주세요.
 > 만약 컴포넌트에서 <code>update:modelValue</code> 말고는 정의되는 이벤트가 없는 경우 <code>emit = defineEmits()</code>가 가능합니다.
 
-### 15.4. v-model
+### 14.4. v-model
 *  Props의 데이터는 단방향입니다. 컴포넌트간 데이터를 주고 받아야 한다면, v-model로 연결 하세요.
 ```vue
 <script setup>
@@ -1608,7 +1583,7 @@ const emit = defineEmits(['click'])
 
 let val = ref('')
 
-function updateValue(event) {
+const updateValue = (event) => {
   // 정상적인 model 연결을 통한 양방한 바인딩
   emit('update:modelValue', event.target.value)
 }
@@ -1632,7 +1607,7 @@ function updateValue(event) {
 </template>
 ```
 
-### 15.5. defineExpos
+### 14.5. defineExpos
 * Vue3 에서 컴포넌트는 폐쇄형입니다.
 * 컴포넌트의 API 함수를 통한 처리를 가능하게 하고자 한다면 defineExpose를 통해 개방 시켜 주세요.
 ```vue
@@ -1648,7 +1623,7 @@ const state = reactive({
   isOpen: false,
 })
 
-function check() {
+const check = () => {
   console.log('checking...')
 }
 
@@ -1683,9 +1658,9 @@ console.log(comp.value.check())
 
 ---
 
-## 16. 이벤트 버스
+## 15. 이벤트 버스
 
-### 16.1. 사용하지 않습니다.
+### 15.1. 사용하지 않습니다.
 * Event Bus 란? [보기](https://github.com/dream-insight/vue3#16-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EB%B2%84%EC%8A%A4)
 * <code>mitt</code>라는 Event bus로 사용할 수 있는 라이브러리가 있지만, 역시 사용하지 않습니다.
 * 참조: [보기](https://github.com/developit/mitt)
@@ -1694,9 +1669,9 @@ console.log(comp.value.check())
 
 ---
 
-## 17. Provide & Inject
+## 16. Provide & Inject
 
-### 17.1. 철저한 관리필요
+### 16.1. 철저한 관리필요
 * 복잡한 컴포넌트 구조에서 Provide와 Inject는 편하게 자식 컨포넌트와 소통이 가능합니다.
 <img src="https://vuejs.org/assets/provide-inject.3e0505e4.png" />
 
@@ -1708,7 +1683,7 @@ import { ref, provide } from 'vue'
 
 let count = ref(0)
 
-function increase(flag = '+') {
+const increase = (flag = '+') => {
   if (flag === '-') {
     count.value--
   } else {
@@ -1747,7 +1722,7 @@ const increase = inject('increase')
 * 위와 같이 부모 컴포넌트의 변수 또는 함수 등을 공유 할 수 있고, 변이 감지도 손쉽게 처리할 수 있습니다.
 * 엑세스 흐름을 파악하기 어려울 경우 사용에 주의 하세요.
 
-### 17.2. 되도록 상태관리자(Vuex) 사용하세요.
+### 16.2. 되도록 상태관리자(Vuex) 사용하세요.
 * 상태관리자를 통하여 변수를 변이하고, 해당 변수를 컴포넌트에서 호출 하여 사용하세요.
 ```javascript
 // store.js
@@ -1784,7 +1759,7 @@ import { useStore } from 'vuex'
 
 const store = useStore()
 
-function increase() {
+const increase = () => {
   store.dispatch('setIncrease', '-')
 }
 </script>
@@ -1805,7 +1780,7 @@ import { useStore } from 'vuex'
 const store = useStore()
 const count = computed(() => store.state.count)
 
-function increase() {
+const increase = () => {
   store.dispatch('setIncrease', '+')
 }
 </script>
@@ -1851,7 +1826,7 @@ import { useStore } from 'vuex'
 
 const store = useStore()
 
-function increase() {
+const increase = () => {
   store.dispatch('setEvent', 'minus')
 }
 </script>
@@ -1881,7 +1856,7 @@ watch(event, (v) => {
   }
 })
 
-function increase() {
+const increase = () => {
   store.dispatch('setEvent', 'plus')
 }
 </script>
@@ -1899,8 +1874,8 @@ function increase() {
 ---
 
 
-## 18. 상태 관리자 Vuex
-### 18.1. 기능별 모듈 분리를 기본으로 합니다.
+## 17. 상태 관리자 Vuex
+### 17.1. 기능별 모듈 분리를 기본으로 합니다.
   * 분류가 모호한 코드는 store/index.js에 나열하고 코멘트 처리 해줍니다.
 ```javascript
 // index.js
@@ -1919,7 +1894,7 @@ const store = new Vuex.Store({
 })
 ```
 
-### 18.2. mutations, actions, getters
+### 17.2. mutations, actions, getters
   * 기본 명명 규칙을 준수하여 작성해주세요.
   * mutations -> mut, actions -> set, getters -> is(Boolean), get 으로 명명합니다.
 ```javascript
@@ -1970,7 +1945,7 @@ const session = {
 
 ---
 
-## 19. 라우터 Router
+## 18. 라우터 Router
 * 이름은 경로와 일치 시키되 앞쪽 <code>/</code>는 사용하지 않습니다.
 * 별도의 import로 파일을 불러 오지 않고 <code>component</code> 옵션에 바로 <code>() => import()</code> 방식으로 매칭 시켜 줍니다.
 * <code>meta</code> 옵션은 필요한 부분에만 작성하여 주고, 그외에는 설정하지 않습니다.
@@ -2017,8 +1992,8 @@ const routes = [
 
 ---
 
-## 20. env 파일 활용
-### 20.1. 개발, 테스트, 서비스 구분
+## 19. env 파일 활용
+### 19.1. 개발, 테스트, 서비스 구분
 * 루트 폴더에 아래와 같이 파일을 배치 합니다.
 ```
 .env
@@ -2039,7 +2014,7 @@ const routes = [
 }
 ```
 
-### 20.2. 사용 방법
+### 19.2. 사용 방법
 * 각종 환경 변수를 선언 하여 사용합니다.
 * 환경 변수 선언시에 VUE_APP_* 형태로 작성하여야 합니다.
 ```
@@ -2052,7 +2027,7 @@ VUE_APP_API_URL = https://dev.programrush.co.kr/api
 const { VUE_APP_VERSION, VUE_APP_API_URL } = process.env
 ```
 
-### 20.3. 주의 사항
+### 19.3. 주의 사항
 * 로컬 개발 진행 시에 .env 파일을 수정 하였다면 반듯이 로컬 서버를 재시작 해주세요.
 * 배포시에는 빌드 당시 설정된 내용이 적용 됩니다. 설정이 변경된 내용은 꼭 다시 빌드 후 배포하세요.
 
@@ -2063,3 +2038,4 @@ const { VUE_APP_VERSION, VUE_APP_API_URL } = process.env
 
 * 초안 작성 2022.10.07 (작성자: 김종윤 수석 매니저)
 * 항목 6.5 추가작성 2022.10.18 (작성자: 김종윤 수석 매니저)
+* 항목 4, 항목 5 합병 모든 함수 형태는 화살표 함수로 적용 2022.11.09 (작성자: 김종윤 수석 매니저)

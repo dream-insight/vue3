@@ -6,7 +6,7 @@ const ins = getCurrentInstance()
 let checkState = true
 let firstEl = null
 
-function validate() {
+const validate = () => {
   checkState = true
   firstEl = null
 
@@ -22,11 +22,11 @@ function validate() {
   return checkState
 }
 
-function resetForm() {
+const resetForm = () => {
   traverse(ins.subTree, 'reset')
 }
 
-function traverse(el, flag = 'dom') {
+const traverse = (el, flag = 'dom') => {
   if (Array.isArray(el.children)) {
     const len = el.children.length
 
@@ -55,7 +55,7 @@ function traverse(el, flag = 'dom') {
   }
 }
 
-async function componentCheck(el, flag) {
+const componentCheck = (el, flag) => {
   const vueDom = [
     'inputField', 'numberFormat', 'selectBox',
     'switchButton', 'checkButton', 'datePicker',

@@ -61,11 +61,11 @@ watch(() => props.validate, () => {
   errorTransition.value = false
 })
 
-function getText() {
+const getText = () => {
   return selectBox.value.options[selectedIndex.value].text
 }
 
-function updateValue(evt) {
+const updateValue = (evt) => {
   let v = evt.target.value
   selectedIndex.value = selectBox.value.selectedIndex
 
@@ -73,7 +73,7 @@ function updateValue(evt) {
   check()
 }
 
-function check() {
+const check = () => {
   // 폼을 검수하여 값을 반환
   // 임의로 지정된 에러가 없는 경우
   if (props.errorMessage === '') {
@@ -99,7 +99,7 @@ function check() {
   return true
 }
 
-function resetForm() {
+const resetForm = () => {
   if (props.placeholder == '') {
     val.value = props.options[0].value
   } else {
@@ -151,7 +151,7 @@ defineExpose({
     <p
       :class="['description', { error: errorTransition }]"
       v-if="!isValidate">
-      <i class="fas fa-exclamation-circle"></i>
+      <FontAwesomeIcon :icon="['fas', 'exclamation-circle']" />
       {{ message }}
     </p>
   </div>

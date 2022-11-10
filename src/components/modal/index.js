@@ -20,14 +20,14 @@ export default {
       }
     }
 
-    function destroy() {
+    const destroy = () => {
       if (VNode !== null) {
         render(null, VNode)
         VNode = null
       }
     }
 
-    function setMessage(opt, type) {
+    const setMessage = (opt, type) => {
       const props = {
         type,
         title: (type === 'alert') ? '알림' : '확인',

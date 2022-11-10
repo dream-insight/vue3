@@ -4,7 +4,7 @@ import { inject } from 'vue'
 // plugin
 const Modal = inject('Modal')
 
-function openModal(type = 'alert') {
+const openModal = (type = 'alert') => {
   if (type == 'alert') {
     Modal.alert({
       message: 'test',

@@ -33,7 +33,7 @@ watch(() => props.month, (v) => {
 })
 
 
-function toggleSelector(flag = 'year') {
+const toggleSelector = (flag = 'year') => {
   if (flag === 'month') {
     showYearSelector.value = false
     showMonthSelector.value = !showMonthSelector.value
@@ -43,11 +43,11 @@ function toggleSelector(flag = 'year') {
   }
 }
 
-function setYearMonth(target, value) {
+const setYearMonth = (target, value) => {
   emit(`set-${target}`, value)
 }
 
-function changeMonth(increase) {
+const changeMonth = (increase) => {
   emit('change-month', increase)
 }
 
@@ -69,7 +69,7 @@ selectedMonth.value = props.month
       <em @click="toggleSelector()">
         {{ year }}년
 
-        <selector
+        <Selector
           :max="maxYear"
           :date="selectedYear"
           :is-show="showYearSelector"
@@ -80,7 +80,7 @@ selectedMonth.value = props.month
       <em @click="toggleSelector('month')">
         {{ month + 1 }}월
 
-        <selector
+        <Selector
           :date="selectedMonth"
           @selected="setYearMonth('month', $event)"
           :is-show="showMonthSelector"

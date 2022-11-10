@@ -13,10 +13,6 @@ async function ayncTest() {
   text = await ayncTest()
   console.log(text)
 })()
-
-
-
-
 </script>
 
 <template>

@@ -6,7 +6,7 @@ const Spinner = inject('Spinner')
 let timer = ref(0)
 let message = ref('버튼을 클릭해서 스피너를 확인 하세요.')
 
-function setTimer(time) {
+const setTimer = (time) => {
   timer.value = time
 
   const interval = setInterval(() => {
@@ -20,7 +20,7 @@ function setTimer(time) {
   }, 1000)
 }
 
-async function show(flag = 0) {
+const show = async (flag = 0) => {
   message.value = ''
 
   if (flag == 0) {

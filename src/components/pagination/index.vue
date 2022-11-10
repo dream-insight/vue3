@@ -42,7 +42,7 @@ watch(() => props.modelValue, (v) => {
   }
 })
 
-function makePageList() {
+const makePageList = () => {
   pageList.value = []
   maxPage.value = Math.ceil(props.total / props.size)
   startPage.value = Math.floor((nowPage.value - 1) / pageBlock.value) * pageBlock.value + 1
@@ -63,7 +63,7 @@ function makePageList() {
   }
 }
 
-function updateValue(v) {
+const updateValue = (v) => {
   if (parseInt(v) != nowPage) {
     nowPage.value = v
     emit('update:modelValue', v)
@@ -86,12 +86,12 @@ makePageList()
     <ul class="pagination">
       <li class="page-item">
         <a class="page-link" href="#" @click.prevent="updateValue(1)">
-          <FontAwesomeIcon :icon="['fas', 'angle-double-left']" />
+          <font-awesome-icon :icon="['fas', 'angle-double-left']" />
         </a>
       </li>
       <li class="page-item">
         <a class="page-link" href="#" @click.prevent="updateValue(prev)">
-          <FontAwesomeIcon :icon="['fas', 'angle-left']" />
+          <font-awesome-icon :icon="['fas', 'angle-left']" />
         </a>
       </li>
 
@@ -104,12 +104,12 @@ makePageList()
 
       <li class="page-item">
         <a class="page-link" href="#" @click.prevent="updateValue(next)">
-          <FontAwesomeIcon :icon="['fas', 'angle-right']" />
+          <font-awesome-icon :icon="['fas', 'angle-right']" />
         </a>
       </li>
       <li class="page-item">
         <a class="page-link" href="#" @click.prevent="updateValue(maxPage)">
-          <FontAwesomeIcon :icon="['fas', 'angle-double-right']" />
+          <font-awesome-icon :icon="['fas', 'angle-double-right']" />
         </a>
       </li>
     </ul>

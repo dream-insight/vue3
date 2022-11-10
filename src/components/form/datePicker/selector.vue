@@ -48,7 +48,7 @@ onMounted(() => {
   }
 })
 
-function updateValue(v) {
+const updateValue = (v) => {
   emit('selected', v)
 }
 </script>

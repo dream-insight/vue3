@@ -103,7 +103,7 @@ const successful = computed(() => isValidate.value && checkPass.value)
  *
  * @param { Event } evt
  */
-function zeroCheck(evt) {
+const zeroCheck = (evt) => {
   if (evt.type === 'focus' && evt.target.value === '0' && evt.target.value.length === 1) {
     evt.target.value = ''
     emit('update:modelValue', 0)
@@ -119,7 +119,7 @@ function zeroCheck(evt) {
  * @param { String } v
  * @return { String } format number string
  */
-function format(v) {
+const format = (v) => {
   if (v !== '') {
     let minus = parseFloat(v) >= 0 ? false : true
     let find = /(\d+)(\d{3})/
@@ -140,7 +140,7 @@ function format(v) {
   return ''
 }
 
-function updateValue() {
+const updateValue = () => {
   let value = input.value.value.replace(/[^\d\-]/g, '').replace(/\-{2,}/g, '-').replace(/^$/, 0)
 
   value = (value.charAt(0) === '-') ? '-'.concat(value.replace(/[-]/g, '')) : value.replace(/[-]/g, '')
@@ -151,7 +151,7 @@ function updateValue() {
   }
 }
 
-function check() {
+const check = () => {
   // 임의로 지정된 에러가 없는 경우
   if (props.errorMessage === '') {
     // validate check
@@ -182,7 +182,7 @@ function check() {
   }
 }
 
-function resetForm() {
+const resetForm = () => {
   emit('update:modelValue', '')
 }
 

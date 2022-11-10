@@ -3,8 +3,8 @@ import ToastComponent from './component'
 
 export default {
   install: (app, options = null) => {
-    const body = document.querySelector('body')
     let VNode = null
+    const body = document.querySelector('body')
     const props = {
       message: '',
       icon: 'check-circle',
@@ -12,7 +12,7 @@ export default {
       color: 'success',
     }
 
-    function setMessage(opt) {
+    const setMessage = (opt) => {
       if (options !== null) {
         if (options.maxShowMessage !== undefined) {
           props.maxShowMessage = options.maxShowMessage

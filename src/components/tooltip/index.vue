@@ -42,7 +42,7 @@ let boxRect = {}
 
 const showIcon = computed(() => slots.default !== undefined)
 
-function init() {
+const init = () => {
   if (position.value === 'top') {
     addStyle.top = ''
     addStyle.bottom = '100%'
@@ -66,7 +66,7 @@ function init() {
   }
 }
 
-function onMouse(show) {
+const onMouse = (show) => {
   init()
   isShow.value = show
 }

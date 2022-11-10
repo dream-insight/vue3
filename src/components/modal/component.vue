@@ -52,13 +52,13 @@ let isShow = ref(false)
 let modalShow = ref(true)
 let btnOkay = ref(null)
 
-function show() {
+const show = () => {
   document.body.classList.add('no-scroll')
   modalShow.value = true
   isShow.value = true
 }
 
-function hide() {
+const hide = () => {
   let modalCheck = document.body.querySelectorAll('.modal-bg')
 
   if (modalCheck.length == 0) {
@@ -72,20 +72,20 @@ function hide() {
   }, 300)
 }
 
-function destory() {
+const destory = () => {
   isOpen.value = false
 }
 
-function clickOkay() {
-  if (typeof props.okay === 'function') {
+const clickOkay = () => {
+  if (typeof props.okay === 'const') {
     props.okay.call()
   }
 
   hide()
 }
 
-function clickCancel() {
-  if (typeof props.cancel === 'function') {
+const clickCancel = () => {
+  if (typeof props.cancel === 'const') {
     props.cancel.call()
   }
 

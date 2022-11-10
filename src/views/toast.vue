@@ -3,7 +3,7 @@ import { inject } from 'vue'
 
 const Toast = inject('Toast')
 
-function showToast(color) {
+const showToast = (color) => {
   if (color == 'success') {
     Toast('success toast message')
   } else {

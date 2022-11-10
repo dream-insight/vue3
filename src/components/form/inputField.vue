@@ -128,7 +128,7 @@ const styleWidth = computed(() => {
   }
 })
 
-function updateValue(evt = null) {
+const updateValue = (evt = null) => {
   let v = ''
 
   if (evt === null) {
@@ -140,7 +140,7 @@ function updateValue(evt = null) {
   emit('update:modelValue', v)
 }
 
-function getPattern(type = '') {
+const getPattern = (type = '') => {
   if (pattern !== undefined) {
     type = props.pattern.value
   }
@@ -198,7 +198,7 @@ function getPattern(type = '') {
   return { pattern, message }
 }
 
-function check() {
+const check = () => {
   // 임의로 지정된 에러가 없는 경우
   if (props.errorMessage === '') {
     // pattern check
@@ -245,7 +245,7 @@ function check() {
   return false
 }
 
-function resetForm() {
+const resetForm = () => {
   emit('update:modelValue', '')
 }
 
