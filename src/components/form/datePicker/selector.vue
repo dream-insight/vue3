@@ -61,6 +61,7 @@ const updateValue = (v) => {
         <ul ref="el">
           <li
             :class="{ active: num == date }"
+            :key="`date-${num}`"
             @click="updateValue(num)"
             v-for="num in items">
             <template v-if="max > 0">
