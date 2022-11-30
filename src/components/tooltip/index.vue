@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, computed, onMounted, defineProps, useSlots } from 'vue'
+import { ref, computed, defineProps, useSlots } from 'vue'
 
 const slots = useSlots()
 const props = defineProps({
@@ -34,37 +34,8 @@ const el = ref(null)
 
 let position = ref('')
 let isShow = ref(true)
-let transitionName = ref('')
-const addStyle = reactive({})
-
-let rect = {}
-let boxRect = {}
 
 const showIcon = computed(() => slots.default !== undefined)
-
-const init = () => {
-  if (position.value === 'top') {
-    addStyle.top = ''
-    addStyle.bottom = '100%'
-    addStyle.left = ((rect.width - boxRect.width) / 2) + 'px'
-    addStyle.marginBottom = '7px'
-    addStyle.marginTop = 0
-  } else if (position.value === 'right') {
-    addStyle.top = ((rect.height - boxRect.height) / 2) + 'px'
-    addStyle.left = '100%'
-    addStyle.marginLeft = '7px'
-    addStyle.marginTop = 0
-  } else if (position.value === 'left') {
-    addStyle.top = ((rect.height - boxRect.height) / 2) + 'px'
-    addStyle.right = '100%'
-    addStyle.marginRight = '7px'
-    addStyle.marginTop = 0
-  } else {
-    addStyle.top = '100%'
-    addStyle.left = ((rect.width - boxRect.width) / 2) + 'px'
-    addStyle.marginTop = '7px'
-  }
-}
 
 const onMouse = (show) => {
   init()
@@ -80,21 +51,6 @@ if (props.top) {
 } else {
   position.value = 'bottom'
 }
-
-transitionName.value = `tooltip-${position.value}`
-
-onMounted(() => {
-  rect = el.value.getBoundingClientRect()
-
-  const interval = setInterval(() => {
-    boxRect = el.value.querySelector('.message-box').getBoundingClientRect()
-
-    if (boxRect.width > 0) {
-      isShow.value = false
-      clearInterval(interval)
-    }
-  }, 10)
-})
 </script>
 
 <template>
@@ -102,10 +58,10 @@ onMounted(() => {
     <slot v-if="showIcon"></slot>
     <FontAwesomeIcon class="icon" :icon="['fas', 'question-circle']" v-else />
 
-    <transition :name="transitionName">
+    <transition name="tooltip">
       <div
         :class="['message-box', position]"
-        :style="[{width: `${width}px`}, addStyle]"
+        :style="[{width: `${width}px`}]"
         v-if="isShow">
         <template v-if="Array.isArray(message)">
           <ul>
@@ -124,6 +80,6 @@ onMounted(() => {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import './style.scss';
 </style>

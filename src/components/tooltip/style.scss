@@ -1,40 +1,10 @@
-.tooltip-right-enter-from,
-.tooltip-right-leave-to {
+.tooltip-enter,
+.tooltip-leave-to {
   opacity: 0;
-  transform: translateX(-20px)
+  margin: 0 !important;
 }
-.tooltip-right-enter-active,
-.tooltip-right-leave-active {
-  transition: all 0.2s ease-in-out;
-}
-
-.tooltip-left-enter-from,
-.tooltip-left-leave-to {
-  opacity: 0;
-  transform: translateX(20px)
-}
-.tooltip-left-enter-active,
-.tooltip-left-leave-active {
-  transition: all 0.2s ease-in-out;
-}
-
-.tooltip-top-enter-from,
-.tooltip-top-leave-to {
-  opacity: 0;
-  transform: translateY(20px)
-}
-.tooltip-top-enter-active,
-.tooltip-top-leave-active {
-  transition: all 0.2s ease-in-out;
-}
-
-.tooltip-bottom-enter-from,
-.tooltip-bottom-leave-to {
-  opacity: 0;
-  transform: translateY(-20px)
-}
-.tooltip-bottom-enter-active,
-.tooltip-bottom-leave-active {
+.tooltip-enter-active,
+.tooltip-leave-active {
   transition: all 0.2s ease-in-out;
 }
 
@@ -44,7 +14,8 @@
   z-index: 100000;
 
   .icon {
-    display: inline-block;
+    width: 20px;
+    height: 20px;
   }
 
   .message-box {
@@ -59,7 +30,6 @@
     transition: all 0.2s ease-in-out;
     text-align: left !important;
     color: #000;
-    margin-top: 100000px;
 
     ul {
       padding: 0;
@@ -76,8 +46,32 @@
       }
     }
 
-    &.visible {
-      visibility: visible;
+    &.right {
+      left: 100%;
+      transform: translateY(-50%);
+      top: 50%;
+      margin-left: 5px;
+    }
+
+    &.left {
+      right: 100%;
+      transform: translateY(-50%);
+      top: 50%;
+      margin-right: 5px;
+    }
+
+    &.top {
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-bottom: 5px;
+    }
+
+    &.bottom {
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: 5px;
     }
   }
 }
