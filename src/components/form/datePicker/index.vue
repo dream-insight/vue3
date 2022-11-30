@@ -373,18 +373,18 @@ const pickCaseDate = (flag) => {
     } else {
       date = new Date(date.getFullYear(), date.getMonth(), 0)
     }
+  }
 
-    let year = date.getFullYear()
-    let month = date.getMonth() + 1
-    let day = date.getDate()
+  let year = date.getFullYear()
+  let month = date.getMonth() + 1
+  let day = date.getDate()
 
-    if (month.toString().length === 1) {
-      month = '0' + month.toString()
-    }
+  if (month.toString().length === 1) {
+    month = '0' + month.toString()
+  }
 
-    if (day.toString().length === 1) {
-      day = '0' + day.toString()
-    }
+  if (day.toString().length === 1) {
+    day = '0' + day.toString()
   }
 
   let format = `Y${props.separator}m${props.separator}d`
@@ -407,9 +407,6 @@ const pickCaseDate = (flag) => {
       selected.end.date = date.getDateFormat(format, 0)
       break
     case 4:
-      selected.start.date = `${year}${props.separator}${month}${props.separator}01`
-      selected.end.date = `${year}${props.separator}${month}${props.separator}${day}`
-      break
     case 5:
       selected.start.date = `${year}${props.separator}${month}${props.separator}01`
       selected.end.date = `${year}${props.separator}${month}${props.separator}${day}`
