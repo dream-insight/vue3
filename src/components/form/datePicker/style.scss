@@ -8,6 +8,12 @@
   -ms-user-select: none;
   user-select: none;
 
+  .icon-cal {
+    font-size: 20px;
+    color: rgb(121, 121, 121);
+    margin-left: 5px;
+  }
+
   &.error input[type=text] {
     border: 2px solid #ff5252;
   }

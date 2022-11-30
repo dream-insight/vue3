@@ -681,14 +681,14 @@ defineExpose({
             :placeholder="holderText[0]"
             :value="modelValue[0]"
           />
-          <FontAwesomeIcon class="ml-1" :icon="['fas', 'calendar-alt']" />
+          <FontAwesomeIcon class="icon-cal" :icon="['fas', 'calendar-alt']" />
           &nbsp;&nbsp;~&nbsp;&nbsp;
           <input
             type="text"
             :placeholder="holderText[1]"
             :value="modelValue[1]"
           />
-          <FontAwesomeIcon :icon="['fas', 'calendar-alt']" />
+          <FontAwesomeIcon class="icon-cal" :icon="['fas', 'calendar-alt']" />
         </template>
 
         <template v-else>
@@ -697,7 +697,7 @@ defineExpose({
             :placeholder="holderText"
             :value="modelValue"
           />
-          <FontAwesomeIcon class="ml-1" :icon="['fas', 'calendar-alt']" />
+          <FontAwesomeIcon class="icon-cal" :icon="['fas', 'calendar-alt']" />
         </template>
       </div>
 
