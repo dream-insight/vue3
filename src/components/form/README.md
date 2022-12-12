@@ -113,7 +113,7 @@ const rules = reactive({
 <template>
   <p>
     <h5>input field</h5>
-    <input-field
+    <InputField
       block
       placeholder="이곳에 입력해주세요"
       :validate="rules.input"
@@ -122,7 +122,7 @@ const rules = reactive({
   </p>
   <p>
     <h5>textarea</h5>
-    <input-field
+    <InputField
       block
       multiline
       placeholder="이곳에 입력해주세요"
@@ -191,7 +191,7 @@ const rules = reactive({
 <template>
   <p>
     <h5>input field number</h5>
-    <number-format
+    <numberFormat
       :validate="rules.input"
       v-model="number"
     />
@@ -244,7 +244,7 @@ for (let value = 1; value <= 10; value++) {
 <template>
   <p>
     <h5>select box</h5>
-    <select-box
+    <SelectBox
       placeholder="한 가지 항목을 선택해주세요"
       :validate="rules.select"
       :options="opt.select"
@@ -286,11 +286,11 @@ let label = ref(['동의 안함', '동의'])
 <template>
   <p>
     <h5>switch button</h5>
-    <switch-button validate="설정으로 바꿔주세요." v-model="bool" />
+    <SwitchButton validate="설정으로 바꿔주세요." v-model="bool" />
   </p>
   <p>
     <h5>small size switch button</h5>
-    <switch-button
+    <SwitchButton
       small
       validate
       true-value="T"
@@ -336,11 +336,11 @@ const rules = reactive({
 <template>
   <p>
     <h5>date picker</h5>
-    <date-picker :validate="rules.date" v-model="date" />
+    <DatePicker :validate="rules.date" v-model="date" />
   </p>
   <p>
     <h5>range date picker</h5>
-    <date-picker range :validate="rules.date" v-model="dateRange" />
+    <DatePicker range :validate="rules.date" v-model="dateRange" />
   </p>
 </template>
 ```
@@ -387,9 +387,9 @@ function fileSelected(evt) {
 <template>
   <p>
     <h5>validate wrapping</h5>
-    <validate-wrap :validate="rules.file" :check-value="files">
+    <ValidateWrap :validate="rules.file" :check-value="files">
       <input type="file" @change="fileSelected" />
-    </validate-wrap>
+    </ValidateWrap>
   </p>
 </template>
 ```

@@ -113,8 +113,8 @@ onUpdated(() => {
 </script>
 
 <template>
-  <component-a ref="comp" />
-  <component-b></component-b>
+  <ComponentA ref="comp" />
+  <ComponentB></ComponentB>
 </template>
 
 <style lang="scss">
@@ -1323,14 +1323,14 @@ goMart = (isOpen) => {
   <div>
     <!-- Bad -->
     <a href="#" v-on:click.prevent="setText">눌러주세요</a>
-    <check-button v-bind:items="data" />
+    <CheckButton v-bind:items="data" />
 
     <!-- Good -->
     <a href="#" @click.prevent="setText">눌러주세요</a>
-    <check-button :items="data" />
+    <CheckButton :items="data" />
 
     <!-- not use -->
-    <check-button :[prop]="whatToDo" @[event]="action" />
+    <CheckButton :[prop]="whatToDo" @[event]="action" />
   </div>
 </template>
 ```
@@ -1513,7 +1513,7 @@ const props = defineProps({
 <template>
   <div>
     <!-- Bad -->
-    <component-a
+    <ComponentA
       maxLength="10"
       :is-hide="true"
       :title="'사과 좋아요!'"
@@ -1522,7 +1522,7 @@ const props = defineProps({
     />
 
     <!-- Good -->
-    <component-a
+    <ComponentA
       is-hide
       title="사과 좋아요!"
       :max-length="10"
@@ -1651,7 +1651,7 @@ console.log(comp.value.check())
 </script>
 
 <template>
-  <component-a ref="comp" />
+  <ComponentA ref="comp" />
 </template>
 ```
 :arrow_up: [목차](#목차)
@@ -2039,3 +2039,4 @@ const { VUE_APP_VERSION, VUE_APP_API_URL } = process.env
 * 초안 작성 2022.10.07 (작성자: 김종윤 수석 매니저)
 * 항목 6.5 추가작성 2022.10.18 (작성자: 김종윤 수석 매니저)
 * 항목 4, 항목 5 합병 모든 함수 형태는 화살표 함수로 적용 2022.11.09 (작성자: 김종윤 수석 매니저)
+* 컴포넌트 표기 오류 수정 2022.12.12 (수정자: 김종윤 수석 매니저)
