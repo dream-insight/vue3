@@ -3,7 +3,11 @@ import { ref, watch, computed, defineEmits, defineProps, defineExpose } from 'vu
 
 const emit = defineEmits()
 const props = defineProps({
-  modelValue: [String, Number, Array, Boolean],
+  modelValue: [String, Number, Array],
+  clickIndex: {
+    type: Number,
+    default: -1
+  },
   // checkbox, radio
   type: {
     type: String,
@@ -44,7 +48,6 @@ const props = defineProps({
 
 let list = ref([])
 let val = (props.type === 'checkbox') ? ref(['']) : ref('')
-let clickIndex = ref(-1)
 let isValidate = ref(true)
 let checkPass = ref(false)
 let message = ref('')
@@ -77,10 +80,10 @@ watch(errorTransition, (v) => {
   }
 })
 
-const successful = computed(() => props.isValidate && checkPass.value)
+const successful = computed(() => isValidate.value && checkPass.value)
 
 const setIndex = (index) => {
-  clickIndex.value = index
+  emit('update:index', index)
   emit('update:modelValue', val.value)
 }
 
@@ -166,7 +169,6 @@ if (props.modelValue) {
 }
 
 defineExpose({
-  clickIndex,
   check,
   resetForm,
   resetValidate
@@ -177,7 +179,7 @@ defineExpose({
   <div :class="['check-button', { button }]">
     <template v-if="button">
       <label
-        style="margin-top: 5px;"
+        :style="{ marginTop: '5px' }"
         :key="`keyword${i}`" v-for="({ text, value }, i) in list">
         <input
           type="checkbox"

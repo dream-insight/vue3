@@ -104,7 +104,7 @@ for (let value = 1; value <= 10; value++) {
         </p>
         <p>
           <h5>input field number</h5>
-          <InputField
+          <NumberFormat
             :validate="rules.input"
             v-model="number"
           />

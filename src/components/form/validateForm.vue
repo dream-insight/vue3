@@ -1,7 +1,7 @@
 <script setup>
-import { defineExpose, getCurrentInstance } from 'vue'
+import { ref, defineExpose } from 'vue'
 
-const ins = getCurrentInstance()
+const frm = ref(null)
 
 let checkState = true
 let firstEl = null
@@ -10,7 +10,8 @@ const validate = () => {
   checkState = true
   firstEl = null
 
-  traverse(ins.subTree)
+  // traverse(ins.subTree)
+  traverse(frm.value.__vnode)
 
   // 검수에 통과하지 못한 가장 첫번째 폼에 포커스
   if (firstEl !== null) {
@@ -23,7 +24,7 @@ const validate = () => {
 }
 
 const resetForm = () => {
-  traverse(ins.subTree, 'reset')
+  traverse(frm.value.__vnode, 'reset')
 }
 
 const traverse = (el, flag = 'dom') => {
@@ -65,9 +66,8 @@ const componentCheck = (el, flag) => {
   // 컴포넌트인지 체크 후 필요한 처리를 한다.
   if (typeof el.type === 'object') {
     // npm install 된 컴포넌트는 __file property 없기 때문에 통과
-    if (el.type.__file !== undefined) {
-      let file = el.type.__file.split('/')
-      let tagName = file[file.length - 1].split('.')[0]
+    if (el.type.hasOwnProperty('__name') ) {
+      let tagName = el.type.__name
 
       if (vueDom.indexOf(tagName) > -1) {
         if (flag == 'reset') {

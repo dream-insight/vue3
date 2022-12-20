@@ -80,7 +80,8 @@ for (let value = 1; value <= 10; value++) {
 
 | Name | Type | Default | Require | Description |
 |-------|---- |---------|---------|-------------|
-| modelValue | Any | <code>none</code> | false | v-model |
+| modelValue | String, Number, Array | <code>none</code> | false | v-model |
+| clickIndex | Number | <code>-1</code> | false | v-model:clickIndex - 클릭된 button의 index |
 | type | String | <code>checkbox</code> | false | checkbox 또는 radio 선택 |
 | name | String | <code>''</code> | *true* | input name 애드립뷰트 값을 설정 |
 | items | Array | <code>[Object]</code> | *true* | 항목을 만들 배열 데이터 <br> [{ text: '', value: '' }] |
@@ -259,6 +260,7 @@ for (let value = 1; value <= 10; value++) {
 | Name | Type | Default | Require | Description |
 |-------|---- |---------|---------|-------------|
 | modelValue | String | <code>''</code> | false | v-model |
+| selectedIndex | number | <code>-1</code> | false | v-model:selectedIndex - 선택된 option의 index 값 |
 | options | Array | <code>[]</code> | false | option 필드를 생성할 데이터<br>[{ text: '', value: '' }] |
 | width | String, Number | <code>none</code> | false | 넓이 설정 (block 보다 우선) |
 | validate | Array | <code>[Function]</code> | false | 폼 유효성 검사에 필요한 callback 함수를 배열에 나열 입력 |
@@ -422,3 +424,9 @@ function fileSelected(evt) {
 :arrow_up: [목차](#-Form-validation-Components)
 
 ---
+
+### UPDATE HISTORY
+
+* SelectBox v-mode:selectedIndex 추가
+* CheckButton 오류 수정
+* CheckButton v-model:clickIndex 추가 - 2022.12.15 (수정: 김종윤 수석 매니저)

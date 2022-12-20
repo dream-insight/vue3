@@ -138,8 +138,8 @@ watch(() => props.modelValue, (v) => {
 
 watch(() => props.validate, () => {
   message.value = ''
-  isValidatemessage.value = true
-  errorTransitionmessage.value = false
+  isValidate.value = true
+  errorTransition.value = false
 })
 
 const startDate = computed(() => {
@@ -154,7 +154,7 @@ const startDate = computed(() => {
 })
 
 const endDate = computed(() => {
-  let v = dateState.end.year
+  let v = selected.end.date
 
   if (selected.end.day === 0) {
     v = dateFormat(dateState.end.year, dateState.end.month, dateState.end.day)
@@ -360,19 +360,17 @@ const changeYearMonth = (flag, target, value) => {
 }
 
 const pickCaseDate = (flag) => {
-  toggleDateButton[nowChecked.value].checked = false
-  toggleDateButton[flag].checked = true
+  toggleDateButton.value[nowChecked.value].checked = false
+  toggleDateButton.value[flag].checked = true
 
   nowChecked.value = flag
 
   let date = new Date()
 
-  if (flag === 4 || flag === 5) {
-    if (flag === 4) {
-      date = new Date(date.getFullYear(), date.getMonth() + 1, 0)
-    } else {
-      date = new Date(date.getFullYear(), date.getMonth(), 0)
-    }
+  if (flag === 4) {
+    date = new Date(date.getFullYear(), date.getMonth() + 1, 0)
+  } else if (flag === 5) {
+    date = new Date(date.getFullYear(), date.getMonth(), 0)
   }
 
   let year = date.getFullYear()
@@ -559,7 +557,7 @@ const check = () => {
       let result1 = true
       let result2 = true
 
-      if (this.range) {
+      if (props.range) {
         result1 = props.validate[i].call(null, selected.start.date)
         result2 = props.validate[i].call(null, selected.end.date)
       } else {
@@ -582,7 +580,7 @@ const check = () => {
   return true
 }
 
-Date.prototype.getDateFormat = (format, days = 0) => {
+Date.prototype.getDateFormat = function(format, days = 0) {
   let date = this
 
   if (days !== 0) {
@@ -590,7 +588,7 @@ Date.prototype.getDateFormat = (format, days = 0) => {
     date = new Date(time + (86400 * days * 1000))
   }
 
-  let year = date.getYear()
+  let year = date.getFullYear()
   let month = date.getMonth() + 1
   let day = date.getDate()
   let dYear = date.getFullYear()
@@ -605,14 +603,13 @@ Date.prototype.getDateFormat = (format, days = 0) => {
     dDay = `0${day}`
   }
 
-  format = format.replace('Y', dYear)
-  format = format.replace('m', dMonth)
-  format = format.replace('d', dDay)
-  format = format.replace('y', year)
-  format = format.replace('n', month)
-  format = format.replace('j', day)
-
   return format
+    .replace('Y', dYear)
+    .replace('m', dMonth)
+    .replace('d', dDay)
+    .replace('y', year)
+    .replace('n', month)
+    .replace('j', day)
 }
 
 init()
@@ -630,7 +627,7 @@ if (props.placeholder) {
 if (props.modelValue) {
   if (props.range) {
     selected.start.date = props.modelValue[0]
-    selected.start.end = props.modelValue[1]
+    selected.end.date = props.modelValue[1]
   } else {
     selected.start.date = props.modelValue
   }
@@ -799,7 +796,7 @@ defineExpose({
             </div>
 
             <div class="btn-area">
-              <div :class="['select-date', { 'selected-error': this.selectedError }]">
+              <div :class="['select-date', { 'selected-error': selectedError }]">
                 {{ selectedDateView }}
               </div>
               <div>

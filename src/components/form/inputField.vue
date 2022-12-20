@@ -123,9 +123,9 @@ const styleWidth = computed(() => {
   if (props.width) {
     const index = props.width.indexOf('%') >= 0
     return index ? props.width : props.width + 'px'
-  } else {
-    return false
   }
+
+  return false
 })
 
 const updateValue = (evt = null) => {
@@ -140,11 +140,7 @@ const updateValue = (evt = null) => {
   emit('update:modelValue', v)
 }
 
-const getPattern = (type = '') => {
-  if (pattern !== undefined) {
-    type = props.pattern.value
-  }
-
+const getPattern = () => {
   const patternCase = {
     // 영문만 유효성 검사
     eng: {
@@ -192,10 +188,7 @@ const getPattern = (type = '') => {
     },
   }
 
-  let pattern = patternCase[type].pattern
-  let message = patternCase[type].message
-
-  return { pattern, message }
+  return patternCase[props.pattern]
 }
 
 const check = () => {

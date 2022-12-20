@@ -4,6 +4,10 @@ import { ref, watch, computed, defineProps, defineEmits, defineExpose } from 'vu
 const emit = defineEmits()
 const props = defineProps({
   modelValue: [String, Number],
+  selectedIndex: {
+    type: Number,
+    default: -1,
+  },
   options: {
     type: Array,
     default: []
@@ -28,7 +32,6 @@ let val = ref('')
 let isValidate = ref(true)
 let message = ref('')
 let errorTransition = ref(false)
-let selectedIndex = ref(-1)
 let selectBox = ref(null)
 
 const styleWidth = computed(() => {
@@ -67,9 +70,9 @@ const getText = () => {
 
 const updateValue = (evt) => {
   let v = evt.target.value
-  selectedIndex.value = selectBox.value.selectedIndex
 
-  emit('update:modelValue', v, selectBox.value.selectedIndex)
+  emit('update:modelValue', v)
+  emit('update:selectedIndex', selectBox.value.selectedIndex)
   check()
 }
 

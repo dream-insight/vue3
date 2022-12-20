@@ -120,6 +120,7 @@ const zeroCheck = (evt) => {
  * @return { String } format number string
  */
 const format = (v) => {
+  return new Intl.NumberFormat().format(v)
   if (v !== '') {
     let minus = parseFloat(v) >= 0 ? false : true
     let find = /(\d+)(\d{3})/
@@ -204,13 +205,12 @@ defineExpose({
 
 <template>
   <div
-    :class="['input-wrap', {error: !isValidate, success: successful, block }]"
-    :style="{width: width ? width : ''}">
+    :class="['input-wrap', { error: !isValidate, success: successful, block }]"
+    :style="{ width: width ? width : '' }">
 
     <input
       ref="input"
       type="text"
-      :style="{width: width ? width + 'px' : false}"
       :placeholder="placeholder"
       :tabindex="tabIndex ? tabIndex : false"
       :disabled="disabled"
@@ -225,7 +225,7 @@ defineExpose({
       :class="['description', { error: errorTransition }]"
       v-if="message !== '' || successful">
       <FontAwesomeIcon :icon="['fas', 'exclamation-circle']" />
-      {{message}}
+      {{ message }}
       <i class="fas fa-check-circle" v-if="successful"></i>
     </p>
   </div>

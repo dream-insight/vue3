@@ -50,7 +50,7 @@ const labelText = computed(() => props.modelValue === props.trueValue ? props.la
 const check = () => {
   // validate check
   if (props.validate) {
-    if (props.modalValue === true) {
+    if (props.modelValue === true) {
       resetForm()
 
       return true
