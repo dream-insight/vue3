@@ -1,4 +1,4 @@
-import { h, render, defineComponent } from 'vue'
+import { h, render } from 'vue'
 import modalComponent from './component'
 
 export default {
@@ -22,7 +22,7 @@ export default {
 
     const destroy = () => {
       if (VNode !== null) {
-        render(null, VNode)
+        render(null, body)
         VNode = null
       }
     }
@@ -93,13 +93,9 @@ export default {
       }
 
       if (VNode == null) {
-        VNode = h(defineComponent(modalComponent), props)
+        VNode = h(modalComponent, props)
         render(VNode, body)
-      } else {
-        VNode.component.props = props
       }
-
-      VNode.component.exposed.show()
     }
 
     modal.alert = (params) => {

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeUpdate, onMounted, defineProps, defineExpose } from 'vue'
+import { ref, onMounted, defineProps, defineExpose } from 'vue'
 
 const props = defineProps({
   type: {
@@ -47,16 +47,8 @@ const props = defineProps({
   destroy: Function
 })
 
-let isOpen = ref(false)
-let isShow = ref(false)
-let modalShow = ref(true)
+let isShow = ref(true)
 let btnOkay = ref(null)
-
-const show = () => {
-  document.body.classList.add('no-scroll')
-  modalShow.value = true
-  isShow.value = true
-}
 
 const hide = () => {
   let modalCheck = document.body.querySelectorAll('.modal-bg')
@@ -66,18 +58,15 @@ const hide = () => {
   }
 
   isShow.value = false
-
-  setTimeout(() => {
-    props.destroy.call()
-  }, 300)
 }
 
-const destory = () => {
-  isOpen.value = false
+const close = () => {
+  if (props.destroy instanceof Function)
+    props.destroy.call()
 }
 
 const clickOkay = () => {
-  if (typeof props.okay === 'const') {
+  if (props.okay instanceof Function) {
     props.okay.call()
   }
 
@@ -85,37 +74,43 @@ const clickOkay = () => {
 }
 
 const clickCancel = () => {
-  if (typeof props.cancel === 'const') {
+  if (props.cancel instanceof Function) {
     props.cancel.call()
   }
 
   hide()
 }
 
-onBeforeUpdate(() => {
-  isOpen.value = true
-})
+const keyupEvent = (evt) => {
+  // Enter 키를 눌렀을 때 okay 실행
+  if (evt.keyCode === 13) {
+    clickOkay()
+  }
+
+  // ESC 키를 눌렀을때 창을 닫아 줌(cancel과 동일)
+  if (evt.keyCode === 27) {
+    clickCancel()
+  }
+}
 
 onMounted(() => {
-  isOpen.value = true
+  document.body.classList.add('no-scroll')
 
-  setTimeout(() => {
-    btnOkay.value.focus()
-    btnOkay.value.blur()
-  }, 300)
+  btnOkay.value.focus()
+  btnOkay.value.blur()
 
   document.addEventListener('keyup', keyupEvent)
 })
 
 defineExpose({
-  show, hide
+  hide
 })
 </script>
 
 <template>
   <transition name="modal-fade">
-    <div class="alert-modal" tabindex="0" v-if="isOpen">
-      <transition appear name="modal-scale" @after-leave="destory">
+    <div class="alert-modal" tabindex="0" v-show="isShow">
+      <transition appear name="modal-scale" @after-leave="close">
         <div class="modal-box"
           :style="{ width: `${width}px` }"
           v-show="isShow">
