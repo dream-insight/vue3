@@ -18,6 +18,7 @@ let delay = ref(0)
 let progress = ref(0)
 let isShow = ref(false)
 let isOpen = ref(false)
+let message = ref('')
 
 watch(progress, (after) => {
   if (after <= 0) {

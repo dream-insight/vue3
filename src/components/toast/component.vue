@@ -13,7 +13,7 @@ const props = defineProps({
 })
 
 let color = ref('success')
-let icon = ref('')
+let icon = ref('check-circle')
 let message = ref('')
 
 let list = ref([])
@@ -28,7 +28,6 @@ watch(list, (items) => {
 })
 
 const show = () => {
-  console.log(icon.value)
   list.value.push({
     key,
     color: color.value,
@@ -61,8 +60,10 @@ const hide = (index = 0) => {
 }
 
 defineExpose({
-  color, icon, message,
-  show, hide
+  color,
+  icon,
+  message,
+  show
 })
 </script>
 

@@ -26,8 +26,6 @@ export default {
       if (VNode == null) {
         VNode = h(defineComponent(ToastComponent), props)
         render(VNode, body)
-      } else {
-        VNode.component.props = props
       }
 
       if (typeof opt == 'object') {
@@ -55,8 +53,6 @@ export default {
         }
       } else {
         if (opt !== undefined) {
-          VNode.component.exposed.icon.value = 'check-circle'
-          VNode.component.exposed.color.value = 'success'
           VNode.component.exposed.message.value = opt
         } else {
           console.error('toast message is not set')
@@ -68,10 +64,6 @@ export default {
 
     const objectToast = (params) => {
       setMessage(params, 'toast')
-    }
-
-    objectToast.hide = () => {
-      toast.hide()
     }
 
     app.config.globalProperties.$toast = objectToast

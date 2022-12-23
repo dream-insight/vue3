@@ -46,20 +46,18 @@ const props = defineProps({
   }
 })
 
-let checked = ref(false)
 let colspan = ref(0)
 let tableHeader = ref([])
 let dataList = ref([])
 let target = ref('')
 let order = ref('')
-let isInit = ref(false)
 
 const listTableCheck = ref(null)
 
 watch(() => props.header, () => setHeader())
 watch(() => props.items, (data) => {
   if (target.value != '') {
-    dataList.value = { ...data }
+    dataList.value = [...data]
     sorting()
   }
 
@@ -120,12 +118,12 @@ const checkAllEvent = (evt) => {
   emit('checked', evt.target.checked)
 }
 
-const setSort = (target, order) => {
-  target.value = target
+const setSort = (t, o) => {
+  target.value = t
 
-  if (order === 'desc') {
+  if (o === 'desc') {
     order.value = 'asc'
-  } else if (order === 'asc') {
+  } else if (o === 'asc') {
     order.value = ''
   } else {
     order.value = 'desc'
@@ -138,8 +136,8 @@ const sorting = () => {
   if (target.value !== '') {
     if (order.value) {
       dataList.value.sort((a, b) => {
-        let condA = parseInt(a[target.value])
-        let condB = parseInt(b[target.value])
+        let condA = Number(a[target.value])
+        let condB = Number(b[target.value])
 
         if (order.value == 'asc') {
           if (condA > condB) {
@@ -186,7 +184,7 @@ const sorting = () => {
     }
 
     emit('@sortChange', {
-      data: { ...this.dataList },
+      data: [...this.dataList],
       target: target.value,
       order: order.value
     })
@@ -202,7 +200,7 @@ if (props.multiHeader) {
 }
 
 if (props.items.length && target.value !== '') {
-  dataList.value = { ...this.items }
+  dataList.value = [...this.items]
 }
 </script>
 

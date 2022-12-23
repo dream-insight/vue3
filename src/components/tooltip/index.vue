@@ -21,7 +21,7 @@ const props = defineProps({
   },
   bottom: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   width: {
     type: [Number, String],
@@ -29,16 +29,12 @@ const props = defineProps({
   }
 })
 
-// 현 컴포넌트 ref
-const el = ref(null)
-
 let position = ref('')
-let isShow = ref(true)
+let isShow = ref(false)
 
 const showIcon = computed(() => slots.default !== undefined)
 
 const onMouse = (show) => {
-  init()
   isShow.value = show
 }
 
@@ -54,7 +50,7 @@ if (props.top) {
 </script>
 
 <template>
-  <div ref="el" class="tooltip-wrap" @mouseenter="onMouse(true)" @mouseleave="onMouse(false)">
+  <div class="tooltip-wrap" @mouseenter="onMouse(true)" @mouseleave="onMouse(false)">
     <slot v-if="showIcon"></slot>
     <FontAwesomeIcon class="icon" :icon="['fas', 'question-circle']" v-else />
 
@@ -66,7 +62,7 @@ if (props.top) {
         <template v-if="Array.isArray(message)">
           <ul>
             <li
-              :key="`tooltip-message-list${msg}`"
+              :key="`tooltip-message-list-${msg}`"
               v-for="msg in message">
               {{ msg }}
             </li>
